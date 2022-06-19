@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@500&family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+/* font-family: 'Aleo', serif; */
+
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+    /* border: 1px solid rgb(31, 31, 31); */
+  }
+
+.header {
+    position: relative;
+    height: 90px;
+    background-color: #f2775cb1;
+    box-shadow: 0px 3px 5px #0d606fc0;
+    font: normal 16px 'Red Hat Text', sans-serif;
+    padding: 25px 120px 24px;
+}
+
+.header-logo {
+    position: relative;
+    display: inline-block;
+    padding: 0px;
+}
+
+.nav {
+    position: absolute;
+    display: inline-block;
+    width: 494px;
+    padding: 0px;
+    top: 35px;
+    left: 494px;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn {
+    position: absolute;
+    display: inline-block;
+    background-color: #0D606F;
+    color: #fff;
+    border: 0px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 5px #974b39;
+}
+
+.login-btn {
+    right: 120px;
+    width: 103px;
+    height: 41px;
+}
+
+
+.promo {
+    height: 765px;
+    margin-top: -90px;
+    background: url("../assets/img/promo-bg.jpg") center center/cover no-repeat;
+
+}
