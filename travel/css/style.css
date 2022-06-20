@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@500&family=Roboto+Mono&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-/* font-family: 'Aleo', serif; */
+
 
 * {
     box-sizing: border-box;
@@ -20,6 +20,7 @@
     box-shadow: 0px 3px 5px #0d606fc0;
     font: normal 16px 'Red Hat Text', sans-serif;
     padding: 25px 120px 24px;
+    z-index: 1;
 }
 
 .header-logo {
@@ -57,13 +58,13 @@
     color: #fff;
     border: 0px;
     border-radius: 10px;
-    box-shadow: 0px 5px 5px #974b39;
 }
 
 .login-btn {
     right: 120px;
     width: 103px;
     height: 41px;
+    box-shadow: 0px 5px 5px #974b39;
 }
 
 
@@ -71,5 +72,55 @@
     height: 765px;
     margin-top: -90px;
     background: url("../assets/img/promo-bg.jpg") center center/cover no-repeat;
+    z-index: -10;
+}
 
+.promo-header {
+    position: relative;
+    margin: 0;
+    top: 122px;
+    left: 120px;
+    width: 892px;
+    font: bold 80px'Aleo', serif;
+    color: #fff;
+}
+
+.promo-descr {
+    position: relative;
+    margin-top: 35px;
+    top: 122px;
+    left: 120px;
+    font: italic 20px'Aleo', serif;
+    color: #fff;
+}
+
+.promo-input {
+    position: relative;
+    margin-top: 46px;
+    padding-left: 41px;
+    top: 122px;
+    left: 120px;
+    width: 892px;
+    height: 95px;
+    font: normal 24px'Aleo', serif;
+    background-color: rgba(255,255,255,0.7);
+    border: none;
+    border-radius: 15px;
+
+}
+
+.promo-input::placeholder {
+    color: #F2785C;
+    font: italic 24px'Aleo', serif;
+}
+
+.promo-btn {
+    position: relative;
+    margin-left: -250px;
+    top: 124px;
+    left: 120px;
+    width: 228px;
+    height: 59px;
+    font: normal 24px 'Red Hat Text', sans-serif;
+    box-shadow: 0px 3px 5px #8b8b8b5a;
 }
