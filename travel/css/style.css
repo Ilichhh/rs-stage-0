@@ -112,6 +112,7 @@
 .promo-input::placeholder {
     color: #F2785C;
     font: italic 24px'Aleo', serif;
+    font-weight: 700;
 }
 
 .promo-btn {
@@ -123,4 +124,42 @@
     height: 59px;
     font: normal 24px 'Red Hat Text', sans-serif;
     box-shadow: 0px 3px 5px #8b8b8b5a;
+}
+
+
+.plan {
+    position: relative;
+    height: 424px;
+    padding: 80px 132px 97px 131px;
+}
+
+.plan-header {
+    margin: 0;
+    margin-bottom: 40px;
+    text-align: center;
+    font: normal 40px 'Red Hat Text', sans-serif;
+    color: #F2785C;
+}
+
+.plan-steps {
+    display: flex;
+    justify-content: space-around;
+    top: 40px;
+    height: 247px;
+}
+
+.steps-item {
+    position: relative;
+}
+
+.steps-icon {
+    display: block;
+    margin: 0 auto;
+}
+
+.steps-descr {
+    text-align: center;
+    margin-top: 30px;
+    font: normal 20px'Aleo', serif;
+    color: #0D606F;
 }
