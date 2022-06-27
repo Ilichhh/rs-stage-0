@@ -6,6 +6,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background: rgb(174, 174, 174);
 }
@@ -23,6 +27,11 @@ body {
     color: #fff;
     border: 0px;
     border-radius: 10px;
+    cursor: pointer;
+    transition: .3s;
+}
+.btn:hover {
+    background-color: #117d90;
 }
 
 .section-header {
@@ -67,6 +76,10 @@ body {
 .menu-link {
     color: #fff;
     text-decoration: none;
+    transition: .3s;
+}
+.menu-link:hover {
+    color: rgb(207, 207, 207);
 }
 .login-btn {
     position: absolute;
@@ -77,14 +90,14 @@ body {
 }
 
 
-/* Promo */
-.promo {
+/* Previe */
+.preview {
     height: 765px;
     margin-top: -90px;
     background: url("../assets/img/promo-bg.jpg") center center/cover no-repeat;
     z-index: -10;
 }
-.promo-header {
+.preview-header {
     position: relative;
     margin: 0;
     top: 122px;
@@ -93,7 +106,7 @@ body {
     font: bold 80px 'Aleo', serif;
     color: #fff;
 }
-.promo-btn {
+.preview-btn {
     position: relative;
     margin-left: -250px;
     top: 124px;
@@ -103,7 +116,7 @@ body {
     font: normal 24px 'Red Hat Text', sans-serif;
     box-shadow: 0px 3px 5px #8b8b8b5a;
 }
-.promo-descr {
+.preview-descr {
     position: relative;
     margin-top: 35px;
     top: 122px;
@@ -111,7 +124,7 @@ body {
     font: italic 20px 'Aleo', serif;
     color: #fff;
 }
-.promo-input {
+.preview-input {
     position: relative;
     margin-top: 46px;
     padding-left: 41px;
@@ -124,20 +137,20 @@ body {
     border: none;
     border-radius: 15px;
 }
-.promo-input::placeholder {
+.preview-input::placeholder {
     color: #F2785C;
     font: italic 24px 'Aleo', serif;
     font-weight: 700;
 }
 
 
-/* Plan */
-.plan {
+/* Steps */
+.steps {
     position: relative;
     height: 424px;
     padding: 80px 132px 97px 131px;
 }
-.plan-steps {
+.steps-plan {
     display: flex;
     justify-content: space-around;
     top: 40px;
@@ -289,21 +302,24 @@ body {
     top: -61px;
     display: block;
     position: relative;
-    padding: 13px 121px 13px 590px;
+    padding: 15px 121px 13px 590px;
 }
 .footer-wrapper {
     display: flex;
     justify-content: space-between;
 }
 .footer-rights {
-    margin: auto 0;
+    margin: 5px 0 auto;
     padding: 0;
     display: block;
     font: normal 16px 'Red Hat Text', sans-serif;
     color: #fff;
 }
 .social {
-    width: 150px;
+    width: 300px;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: space-between;
+    list-style-type: none;
 }
