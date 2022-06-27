@@ -61,7 +61,7 @@ body {
 .nav {
     position: absolute;
     display: inline-block;
-    width: 494px;
+    width: 524px;
     padding: 0px;
     top: 35px;
     left: 494px;
@@ -86,7 +86,7 @@ body {
     right: 120px;
     width: 103px;
     height: 41px;
-    box-shadow: 0px 5px 5px #974b39;
+    box-shadow: 0px 5px 5px #974a39a7;
 }
 
 
@@ -109,7 +109,7 @@ body {
 .preview-btn {
     position: relative;
     margin-left: -250px;
-    top: 124px;
+    top: 122px;
     left: 120px;
     width: 228px;
     height: 59px;
@@ -119,16 +119,17 @@ body {
 .preview-descr {
     position: relative;
     margin-top: 35px;
-    top: 122px;
+    top: 120px;
     left: 120px;
     font: italic 20px 'Aleo', serif;
+    font-weight: 700;
     color: #fff;
 }
 .preview-input {
     position: relative;
     margin-top: 46px;
     padding-left: 41px;
-    top: 122px;
+    top: 120px;
     left: 120px;
     width: 892px;
     height: 95px;
@@ -140,7 +141,7 @@ body {
 .preview-input::placeholder {
     color: #F2785C;
     font: italic 24px 'Aleo', serif;
-    font-weight: 700;
+    font-weight: 200;
 }
 
 
@@ -148,7 +149,7 @@ body {
 .steps {
     position: relative;
     height: 424px;
-    padding: 80px 132px 97px 131px;
+    padding: 80px 50px 97px 50px;
 }
 .steps-plan {
     display: flex;
@@ -179,6 +180,7 @@ body {
 }
 .destinations-slider {
     position: relative;
+    top: 5px;
     height: 844px;
     width: 1440px;
 }
@@ -271,7 +273,7 @@ body {
     height: 250px;
     border-radius: 16px;
     margin-right: 40px;
-    box-shadow: 0px 3px 5px #0d606fd1;
+    box-shadow: 0px 3px 5px #0a4b56df;
     z-index: 1;
 }
 .stories-item-text {
@@ -279,7 +281,7 @@ body {
 }
 .stories-item-header {
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     color: #0D606F;
     font: normal 35px 'Aleo', serif;
 }
