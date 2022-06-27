@@ -12,7 +12,7 @@ body {
 
 .container {
     position: relative;
-    max-width: 1440px;
+    width: 1440px;
     margin: 0 auto;
     background: #fff;
   }
@@ -76,6 +76,7 @@ body {
     box-shadow: 0px 5px 5px #974b39;
 }
 
+
 /* Promo */
 .promo {
     height: 765px;
@@ -92,7 +93,6 @@ body {
     font: bold 80px 'Aleo', serif;
     color: #fff;
 }
-
 .promo-btn {
     position: relative;
     margin-left: -250px;
@@ -103,7 +103,6 @@ body {
     font: normal 24px 'Red Hat Text', sans-serif;
     box-shadow: 0px 3px 5px #8b8b8b5a;
 }
-
 .promo-descr {
     position: relative;
     margin-top: 35px;
@@ -157,6 +156,7 @@ body {
     font: normal 20px 'Aleo', serif;
     color: #0D606F;
 }
+
 
 /* Destinations */
 .destinations {
@@ -225,35 +225,34 @@ body {
     top: 9.5px;
 }
 
+
 /* Stories */
 .stories {
-    height: 1443px;
+    height: 1504px;
     padding: 80px 0 0;
 }
-
 .stories-content {
-    height: 1270px;
+    height: 1331px;
     padding: 40px 125px 0 119px;
     display: block;
     position: relative;
-}
-
-.stories-content::after {
-    content: "";
     background: url("../assets/img/stories-bg.jpg") center center/cover no-repeat;
-    opacity: 0.3;
+}
+.stories-content::after {
+    height: 1271px;
+    background-color: #fff;
+    content: "";
+    opacity: 0.7;
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
 }
-
 .stories-item {
     display: flex;
     margin-bottom: 30px;
 }
-
 .stories-item-img {
     width: 400px;
     height: 250px;
@@ -262,18 +261,15 @@ body {
     box-shadow: 0px 3px 5px #0d606fd1;
     z-index: 1;
 }
-
 .stories-item-text {
     z-index: 1
 }
-
 .stories-item-header {
     margin-top: 0;
     margin-bottom: 20px;
     color: #0D606F;
     font: normal 35px 'Aleo', serif;
 }
-
 .stories-item-descr {
     margin: 0;
     color: #0D606F;
@@ -282,4 +278,32 @@ body {
 .stories-item-descr .link {
     color: #0D606F;
     font: bold 20px 'Aleo', serif;
+}
+
+
+/* Footer */
+.footer {
+    width: 1440px;
+    margin: 0 auto;
+    height: 61px;
+    top: -61px;
+    display: block;
+    position: relative;
+    padding: 13px 121px 13px 590px;
+}
+.footer-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.footer-rights {
+    margin: auto 0;
+    padding: 0;
+    display: block;
+    font: normal 16px 'Red Hat Text', sans-serif;
+    color: #fff;
+}
+.social {
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
 }
