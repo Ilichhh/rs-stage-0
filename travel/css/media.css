@@ -1,14 +1,114 @@
 @media (max-width: 1200px) {
-    .preview-input-wrapper {
-        width: 100%;
+    .nav {
+        width: 504px;
     }
+    .preview-input-wrapper {
+        width: 90%;
+    }
+    .stories-item-header {
+        margin-bottom: 15px;
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 992px) {
+    .header {
+        font-size: 14px;
+    }
+    .nav {
+        width: 444px;
+    }
+    .stories-item-header {
+        margin-bottom: 12px;
+        font-size: 28px;
+    }
+    .stories-item-descr {
+        font-size: 17px;
+    }
+    .stories-item-descr .link {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        font-size: 12px;
+    }
+    .nav {
+        width: 324px;
+    }
+    .login-btn {
+        width: 63px;
+        height: 31px;
+        box-shadow: 0px 5px 5px #974a39a7;
+    }
+    .preview-header {
+        font-size: 60px;
+    }
+    .stories-item-header {
+        margin-bottom: 12px;
+        font-size: 24px;
+    }
+    .stories-item-descr {
+        font-size: 14px;
+    }
+    .stories-item-descr .link {
+        font-size: 14px;
+    }
+    .footer-rights {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .header {
+        font-size: 12px;
+    }
+    .nav {
+        width: 324px;
+    }
+    .header-logo-text {
+        display: none;
+    }
+    .login-btn {
+        width: 63px;
+        height: 31px;
+        box-shadow: 0px 5px 5px #974a39a7;
+    }
+    .preview-input {
+        height: 75px;
+        font-size: 14px;
+    }
+    .preview-input::placeholder {
+        font-size: 14px;
+    }
+    .preview-btn {
+        top: 14px;
+        right: 14px;
+        width: 168px;
+        height: 49px;
+        font-size: 18px;
+    }
+    .preview-header {
+        width: 95%;
+    }
+    .stories-item-header {
+        margin-bottom: 10px;
+        font-size: 22px;
+    }
+    .stories-item-descr {
+        font-size: 12px;
+    }
+    .stories-item-descr .link {
+        font-size: 12px;
+    }
+}
+.social {
+    width: 120px;
 }
 
 @media (max-width: 390px) {
     .nav {
-        display: none;
-    }
-    .header-logo-text {
         display: none;
     }
     .login-btn {
@@ -36,10 +136,10 @@
         height: 130px;
     }
     .stories-item-header {
-        font: bold 11px 'Aleo', serif;
+        font-size: 11px;
     }
     .stories-item-descr {
-        font: normal 9px 'Aleo', serif;
+        font-size: 9px;
     }
 }
     
