@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=1440, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel</title>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="assets/icons/favicon.ico">
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <a href="#" class="header-logo"><img src="assets/img/logo.png" alt="logo"></a>
+            <div class="header-logo">
+                <a href="#" class="header-logo-img"><img src="assets/icons/logo-img.png" alt="logo"></a>
+                <a href="#" class="header-logo-text"><img src="assets/icons/logo-text.png" alt="logo"></a>
+            </div>
             <nav class="nav">
                 <ul class="menu">
                     <li class="menu-item"><a href="#preview" class="menu-link">How it Works</a></li>
@@ -30,8 +33,10 @@
             <section class="preview" id="preview">
                 <h1 class="preview-header">Explore the beauty of the World</h1>
                 <div class="preview-descr">Receive personalized recommendations for countries, hotels, activities and more</div>
-                <input type="text" placeholder="What would you like to do?" class="preview-input">
-                <button class="btn preview-btn">Start Planning</button>
+                <div class="preview-input-wrapper">
+                    <input type="text" placeholder="What would you like to do?" class="preview-input">
+                    <button class="btn preview-btn">Start Planning</button>
+                </div>
             </section>
         </div>
 
@@ -43,7 +48,7 @@
                         <img src="assets/icons/step1.svg" alt="" class="steps-icon">
                         <div class="steps-descr">Tell us what you want to do</div>
                     </div>
-                    <div class="steps-item" style="margin-left: 65px;">
+                    <div class="steps-item">
                         <img src="assets/icons/step2.svg" alt="" class="steps-icon">
                         <div class="steps-descr">Share us preferable dates </div>
                     </div>
@@ -123,13 +128,15 @@
 
     <footer class="footer">
             <div class="footer-wrapper">
+                <ul class="social">
+                    <li><a href="https://github.com/Ilichhh"><img src="assets/icons/iconmonstr-github-1.svg" alt="github" style="height: 30px;"></a></li>
+                    <li><a href="https://rs.school/js-stage0/"><img src="assets/icons/rs-logo.png" alt="rsschool" style="height: 30px;"></a></li>
+                </ul>
                 <p class="footer-rights">All Rights Reserved © Travel Portal</p>
                 <ul class="social">
                     <li><a href="#"><img src="assets/icons/akar-icons_instagram-fill.svg" alt="instagram"></a></li>
                     <li><a href="#"><img src="assets/icons/akar-icons_twitter-fill.svg" alt="twitter"></a></li>
                     <li><a href="#"><img src="assets/icons/akar-icons_video.svg" alt="youtube"></a></li>
-                    <li><a href="https://github.com/Ilichhh"><img src="assets/icons/iconmonstr-github-1.svg" alt="github" style="height: 30px;"></a></li>
-                    <li><a href="https://rs.school/js-stage0/"><img src="assets/icons/rs-logo.png" alt="rsschool" style="height: 30px;"></a></li>
                 </ul>
             </div>
     </footer>
