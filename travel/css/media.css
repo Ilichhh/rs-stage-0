@@ -11,6 +11,7 @@
     }
 }
 
+
 @media (max-width: 992px) {
     .header {
         font-size: 14px;
@@ -29,6 +30,7 @@
         font-size: 17px;
     }
 }
+
 
 @media (max-width: 768px) {
     .header {
@@ -59,6 +61,7 @@
         font-size: 12px;
     }
 }
+
 
 @media (max-width: 576px) {
     .header {
@@ -107,28 +110,183 @@
     width: 120px;
 }
 
+
 @media (max-width: 390px) {
-    .nav {
-        display: none;
+    .section-header {
+        margin: 0;
+        margin-bottom: 20px;
+        font: normal 14px 'Red Hat Text', sans-serif;
     }
+
+    .header {
+        background-color: #f2775c00;
+        box-shadow: none;
+        align-items: flex-start;
+        padding: 43px 16px 0;
+    }
+    .nav {
+        position: fixed;
+        top: 0;
+        right:-170px;
+        left: auto;
+        width: 165px;
+        height: 250px;
+        padding: 8px 15px 30px 8px;
+        background-color: #F2785C;
+        border-radius: 16px;
+        box-shadow: 0px 5px 5px #974a39a7;
+        transition: 0.6s all;
+        z-index: 1000000;
+
+    }
+    .closeburger {
+        display: block;
+    }
+    .menu {
+        margin-top: 6px;
+        height: 176px;
+        align-items: flex-end;
+        flex-direction: column;
+        
+        font: normal 16px 'Red Hat Text', sans-serif;
+    }
+
+    .nav-active {
+        right: 0;
+    }
+    .hamburger {
+        display: block;
+    }
+
     .login-btn {
         display: none;
+    }
+
+
+    .preview {
+        height: 251px;
+        padding: 142px 3.8% 0;
+        background-image: linear-gradient(180deg, #0D606F 0%, rgba(13, 96, 111, 0) 25.1%),url("../assets/img/promo-bg-mobile.jpg"); 
     }
     .preview-header {
         display: none;
     }
-    
     .preview-descr {
         display: none;
     }
-
     .preview-input-wrapper {
-        width: 360px;
+        width: 100%;
+        height: 48px;
+        margin-top: 0;
+    }
+    .preview-input {
+        padding-left: 16px;
+        padding-top: 4px;
+        height: 48px;
+        font: normal 14px 'Aleo', serif;
+    }
+    .preview-input::placeholder {
+        font: italic 14px 'Aleo', serif;
+    }
+    .preview-btn {
+        top: 9px;
+        right: 9px;
+        width: 92px;
+        height: 30px;
+        font: normal 11px 'Red Hat Text', sans-serif;
     }
 
+
+    .steps {
+        height: 193px;
+        padding: 20px 15px 0px;
+    }
+    .steps-plan {
+        justify-content: space-between;
+    }
+    .steps-item {
+        width: 117px;
+    }
+    .steps-icon {
+        height: 70px;
+    }
+    .first-item {
+        margin-left: 0;
+        text-align: left;
+        width: 90px;
+    }
+    .last-item {
+        margin-right: 0;
+        text-align: right;
+    }
+    .steps-descr {
+        margin-top: 20px;
+        font: normal 10px 'Aleo', serif;
+    }
+
+    .slider-content {
+        margin-left: -100%;
+        margin-bottom: 0;
+        width: 300%;
+        height: 210px;
+    }
+    .slider-content-item {
+        margin: 0 7.5px;
+    }
+    .slider-content-photo {
+        content: url("../assets/img/slider-2-mobile.jpg");
+    }
+    .slider-content-header {
+        top: 8px;
+        font: normal 20px 'Red Hat Text', sans-serif;
+    }
+    .slider-nav {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: space-between;
+        margin: -20px auto 0;
+        width: 36px;
+    }
+    .slider-nav-element {
+        width: 8px;
+        height: 8px;
+        z-index: 1;
+    }
+
+    .section-btn {
+        margin: 10px auto 0;
+        padding-left: 26px;
+        width: 92px;
+        height: 30px;
+        font: normal 11px 'Red Hat Text', sans-serif;
+    }
+    .arrow {
+        display: inline-block;
+        position: absolute;
+        left: 12px;
+        top: 10px;
+        height: 10px;
+        width: 10px;
+    }
+
+    .stories {
+        height: 742px;
+        padding: 20px 0 0;
+    }
     .stories-content {
-        /* height: 1331px; */
+        height: 693px;
         padding: 10px 15px 0;
+        background: url("../assets/img/stories-bg-mobile.jpg") center center/cover no-repeat;
+    }
+    .stories-content::after {
+        height: 628px;
+    }
+    .stories-item {
+        height: 130px;
+        margin-bottom: 15px;
     }
     .stories-item-img {
         margin-right: 10px;
@@ -136,10 +294,30 @@
         height: 130px;
     }
     .stories-item-header {
-        font-size: 11px;
+        margin-top: 5;
+        margin-bottom: 10px;
+        font: bold 11px 'Aleo', serif;
     }
     .stories-item-descr {
         font-size: 9px;
+    }
+    .stories-item-descr>span {
+        display: none;
+    }
+    .stories-item-descr .link {
+        font-size: 9px;
+    }
+    .footer {
+        max-width: 1440px;
+        margin: 0 auto;
+        height: 65px;
+        top: -55px;
+        display: block;
+        position: relative;
+        padding: 15px 8.4% 13px;
+    }
+    .footer-rights {
+        display: none;
     }
 }
     
