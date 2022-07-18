@@ -1,11 +1,23 @@
-console.log('Вёрстка соответствует макету. Ширина экрана 390px +48\nНи на одном из разрешений до 320px включительно не появляется горизонтальная полоса прокрутки. Весь контент страницы при этом сохраняется: не обрезается и не удаляется +15\nНа ширине экрана 390рх и меньше реализовано адаптивное меню +22\nИтого 85/75');
+const menu = document.querySelector('.nav');
+const menuItem = document.querySelectorAll('.menu-item');
+const hamburger = document.querySelector('.hamburger');
+const closeburger = document.querySelector('.closeburger');
+const blocker = document.querySelector('.bg');
+const loginBtn = document.querySelector('.login-btn');
+
+const popup = document.querySelector('.popup');
+const signin = document.querySelectorAll('.signin-button');
+const register = document.querySelectorAll('.register');
+const popupHeader = document.querySelectorAll('.form-header');
+const loginOnly = document.querySelectorAll('.login-only');
+
 
 window.addEventListener('DOMContentLoaded', () => {
-    const menu = document.querySelector('.nav'),
-          menuItem = document.querySelectorAll('.menu-item'),
-          hamburger = document.querySelector('.hamburger'),
-          closeburger = document.querySelector('.closeburger'),
-          blocker = document.querySelector('.bg');
+
+    loginBtn.addEventListener('click', () => {
+        blocker.classList.toggle('bg-active');
+        popup.classList.toggle('popup-active');
+    });
 
     hamburger.addEventListener('click', () => {
         menu.classList.toggle('nav-active');
@@ -20,6 +32,7 @@ window.addEventListener('DOMContentLoaded', () => {
     blocker.addEventListener('click', () => {
         menu.classList.toggle('nav-active');
         blocker.classList.toggle('bg-active');
+        popup.classList.toggle('popup-active');
     });
 
     menuItem.forEach(item => {
@@ -29,3 +42,25 @@ window.addEventListener('DOMContentLoaded', () => {
         })
     })
 })
+
+
+
+
+// Switch to register form
+register.forEach(i => {
+    i.addEventListener('click', () => {
+        popupHeader.forEach(item => {
+            item.classList.toggle('hidden-popup-element');
+        })
+        signin.forEach(item => {
+            item.classList.toggle('hidden-popup-element');
+        })
+        register.forEach(item => {
+            item.classList.toggle('hidden-popup-element');
+        })
+        loginOnly.forEach(item => {
+            item.classList.toggle('hidden-popup-element');
+        })
+    })
+})
+

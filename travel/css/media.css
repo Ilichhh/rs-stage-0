@@ -141,18 +141,19 @@
     .stories-item-descr .link {
         font-size: 12px;
     }
+    .popup {
+        width: 100%;
+    }
 }
 .social {
     width: 120px;
 }
 
 
+
 @media (max-width: 390px) {
     body {
         max-height: 1465px;
-    }
-    .bg-active {
-        display: block;
     }
     .section-header {
         margin: 0;

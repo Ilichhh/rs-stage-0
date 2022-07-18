@@ -46,38 +46,39 @@
         </div>
 
         <div class="popup">
-            <div class="popup-content">
-                <h2 class="form-header">Log in to your account</h2>
-                <div class="form-element">
-                    <button class="form-button fb-signin-button"><img src="assets/icons/fb-logo.svg" alt="fb-logo"> Sign In with Facebook</button>
-                </div>
-                <div class="form-element">
-                    <button class="form-button goo-signin-button"><img src="assets/icons/goo-logo.svg" alt="goo-logo">Sign In with Google</button>
-                </div>
-                <div class="form-element-divider">
-                    <span class="divider"></span>
-                    <span>or</span>
-                    <span class="divider"></span>
-                </div>
-                <div class="form-element">
-                    <label for="email">E-mail</label>
-                    <input type="text">
-                </div>
-                <div class="form-element">
-                    <label for="password">Password</label>
-                    <input type="password">
-                </div>
-                <div class="form-element" style="margin-bottom: 10px">
-                    <button class="form-button signin-button">Sign In</button>
-                </div>
-                <div class="form-element-divider">
-                    <a href="#">Forgot Your Password?</a>
-                </div>
-                <div class="form-element-divider">
-                    <span class="divider"></span>
-                </div>
-                <div class="register">Don’t have an account? <a href="#" class="link">Register</a></div>
+            <h2 class="form-header">Log in to your account</h2>
+            <h2 class="form-header hidden-popup-element">Create account</h2>
+            <div class="form-element login-only">
+                <button class="form-button fb-signin-button login-only"><img src="assets/icons/fb-logo.svg" alt="fb-logo"> Sign In with Facebook</button>
             </div>
+            <div class="form-element login-only">
+                <button class="form-button goo-signin-button login-only"><img src="assets/icons/goo-logo.svg" alt="goo-logo">Sign In with Google</button>
+            </div>
+            <div class="form-element-divider login-only">
+                <span class="divider"></span>
+                <span>or</span>
+                <span class="divider"></span>
+            </div>
+            <div class="form-element">
+                <label for="email">E-mail</label>
+                <input type="text">
+            </div>
+            <div class="form-element">
+                <label for="password">Password</label>
+                <input type="password">
+            </div>
+            <div class="form-element" style="margin-bottom: 10px">
+                <button class="form-button signin-button">Sign In</button>
+                <button class="form-button signin-button hidden-popup-element">Sign Up</button>
+            </div>
+            <div class="form-element-divider login-only">
+                <a href="#">Forgot Your Password?</a>
+            </div>
+            <div class="form-element-divider">
+                <span class="divider divider-last"></span>
+            </div>
+            <div class="register">Don’t have an account? <a href="#" class="link">Register</a></div>
+            <div class="register hidden-popup-element">Already have an account? <a href="#" class="link">Log in</a></div>
         </div>
 
         <div class="container" id="steps">

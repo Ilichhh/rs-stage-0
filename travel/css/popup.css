@@ -1,24 +1,20 @@
 .popup {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
     position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.502);
-    z-index: 1000;
-}
-
-.popup-content {
+    top: -150%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 650px;
-    height: 660px;
     border-radius: 16px;
     background: linear-gradient( rgba(255,255,255,1) 0%, rgba(13,96,111,1) 150%);
     color: #0D606F;
     padding: 25px 45px 23px;
     box-shadow: 0px 3px 5px #0a4e59c0;
+    transition: 1s all;
+    z-index: 1000;
+}
+
+.popup-active {
+    top: 50%;
 }
 
 .form-header {
@@ -95,6 +91,9 @@
     border-bottom: 1px solid #0D606F;
     margin: 0 9px;
   }
+.divider-last {
+    margin-top: 16px;
+}
 
   .form-element>label {
     display: inline-block;
@@ -102,17 +101,22 @@
     font: normal 16px 'Aleo', serif;
   }
 
-  .form-element-divider>a, .register>.link {
+  .form-element-divider>a, .register>.link, .login>.link {
     opacity: 100%;
     display: inline;
-    margin: 0 auto 26px;
+    margin: 0 auto 11px;
     color: #0D606F;
     font: bold 15px 'Aleo', serif;
   }
 
-  .register {
+  .register, .login {
+    display: block;
     margin: 11px auto 0;
     text-align: center;
     color: #0d606f7d;
     font: bold 15px 'Aleo', serif;
+  }
+
+  .hidden-popup-element {
+    display: none;
   }
