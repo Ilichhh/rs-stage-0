@@ -270,6 +270,15 @@
         top: 8px;
         font: normal 20px 'Red Hat Text', sans-serif;
     }
+    .arrows {
+        display: block;
+      }
+    .prev-slide {
+        display: none;
+    }
+    .туче-slide {
+        display: none;
+    }
     .slider-nav {
         position: absolute;
         bottom: 15px;
