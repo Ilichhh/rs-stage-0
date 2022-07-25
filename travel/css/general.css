@@ -7,7 +7,7 @@ body {
     max-height: 3500px;
 }
 
-.bg {
+.submit-bg, .menu-bg {
     display: none;
     position: fixed;
     top: 0;

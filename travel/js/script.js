@@ -1,8 +1,10 @@
+const body = document.querySelector('body');
 const menu = document.querySelector('.nav');
 const menuItem = document.querySelectorAll('.menu-item');
 const hamburger = document.querySelector('.hamburger');
 const closeburger = document.querySelector('.closeburger');
-const blocker = document.querySelector('.bg');
+const submitBlocker = document.querySelector('.submit-bg');
+const menuBlocker = document.querySelector('.menu-bg');
 const loginBtn = document.querySelector('.login-btn');
 
 const email = document.getElementById('email');
@@ -24,30 +26,34 @@ const nextSlide = document.querySelector('.next-slide');
 
 const user = {};
 
+console.log('Слайдер изображений в секции destinations +50\nНажатие на кнопку Login (кнопка Account в мобильной версии) показывает сверстанный логин попап + 50\nНажатие на кнопку Register на Login попапе меняет разметку попапа на разметку Sign Up попапа согласно макету (То есть нажатие не закрывает модал а просто меняет его наполнение). +25')
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    function openClosePopup() {
+    function togglePopup() {
         popup.classList.toggle('popup-active');
-        blocker.classList.toggle('bg-active');
+        submitBlocker.classList.toggle('bg-active');
     }
 
-    function openCloseAdaptiveMenu() {
+    function toggleAdaptiveMenu() {
         menu.classList.toggle('nav-active');
-        blocker.classList.toggle('bg-active');
+        menuBlocker.classList.toggle('bg-active');
     }
 
-    loginBtn.addEventListener('click', openClosePopup);
-    hamburger.addEventListener('click', openCloseAdaptiveMenu);
-    closeburger.addEventListener('click', openCloseAdaptiveMenu);
+    loginBtn.addEventListener('click', togglePopup);
+    hamburger.addEventListener('click', toggleAdaptiveMenu);
+    closeburger.addEventListener('click', toggleAdaptiveMenu);
 
-    blocker.addEventListener('click', () => {
-        openCloseAdaptiveMenu()
-        popup.classList.toggle('popup-active');
-    });
+    submitBlocker.addEventListener('click', togglePopup);
+
+    menuBlocker.addEventListener('click', toggleAdaptiveMenu);
 
     menuItem.forEach(item => {
-        item.addEventListener('click', openCloseAdaptiveMenu)
+        item.addEventListener('click', () => {
+            if (parseInt(window.getComputedStyle(body).width) <= 390) {
+                toggleAdaptiveMenu();
+            }
+        });
     })
 
     // Switch betwween registerand login forms
