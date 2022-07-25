@@ -82,7 +82,7 @@ window.addEventListener('DOMContentLoaded', () => {
             user.email = email.value;
             user.password = password.value;
             alert(`Почта: ${user.email}\nПароль: ${user.password}`);
-            openClosePopup()
+            togglePopup()
         })
     })
 
