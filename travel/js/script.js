@@ -14,7 +14,7 @@ const register = document.querySelectorAll('.register');
 const popupHeader = document.querySelectorAll('.form-header');
 const loginOnly = document.querySelectorAll('.login-only');
 
-const slide = document.querySelector('.slider-content-item');
+const slide = document.querySelectorAll('.slider-content-item')[1];
 const slider = document.querySelector('.slider-content');
 const prevArrow = document.querySelector('.prev');
 const nextArrow = document.querySelector('.next');
@@ -84,6 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let switchNextSlide = () => {
         if (slideShift >= 0) {
+            prevArrow.style.opacity = '100%';
             const width = parseInt(window.getComputedStyle(slide).width) + 60;
             slider.style.transform = `translateX(${slideShift - width}px)`;
             slideShift -= width;
@@ -93,10 +94,15 @@ window.addEventListener('DOMContentLoaded', () => {
             activeNav.classList.toggle('active');
             notActiveNav.classList.toggle('active');
         }
+        console.log(slideShift);
+        if (slideShift < -1) {
+            nextArrow.style.opacity = '50%';
+        }
     }
 
     let switchPrevSlide = () => {
         if (slideShift <= 0) {
+            nextArrow.style.opacity = '100%';
             const width = parseInt(window.getComputedStyle(slide).width) + 60;
             slider.style.transform = `translateX(${slideShift + width}px)`;
             slideShift += width;
@@ -105,6 +111,10 @@ window.addEventListener('DOMContentLoaded', () => {
             let notActiveNav = document.querySelectorAll(`.slider-nav-element:nth-child(${activeSlide+1})`)[0];
             activeNav.classList.toggle('active');
             notActiveNav.classList.toggle('active');
+        }
+        console.log(slideShift);
+        if (slideShift > 1) {
+            prevArrow.style.opacity = '50%';
         }
     }
     

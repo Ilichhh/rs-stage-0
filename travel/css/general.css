@@ -228,6 +228,10 @@ body {
     border-radius: 16px;
     width: 100%;
 }
+.slider-content-photo-mobile {
+    display: none;
+    border-radius: 16px;
+}
 .slider-content-header {
     position: absolute;
     margin: 0;

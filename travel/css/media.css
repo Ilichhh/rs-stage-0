@@ -260,11 +260,11 @@
         margin-bottom: 12px;
         width: 300%;
     }
-    .slider-content-item {
-        margin: 0 7.5px;
-    }
     .slider-content-photo {
-        content: url("../assets/img/slider-2-mobile.jpg");
+        display: none;
+    }
+    .slider-content-photo-mobile {
+        display: block;
     }
     .slider-content-header {
         top: 8px;
@@ -276,7 +276,7 @@
     .prev-slide {
         display: none;
     }
-    .туче-slide {
+    .next-slide {
         display: none;
     }
     .slider-nav {
