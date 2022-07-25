@@ -6,6 +6,7 @@ const closeburger = document.querySelector('.closeburger');
 const submitBlocker = document.querySelector('.submit-bg');
 const menuBlocker = document.querySelector('.menu-bg');
 const loginBtn = document.querySelector('.login-btn');
+const accountBtn = document.querySelectorAll('.menu-item')[4];
 
 const email = document.getElementById('email');
 const password = document.getElementById('password');
@@ -41,6 +42,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     loginBtn.addEventListener('click', togglePopup);
+    accountBtn.addEventListener('click', togglePopup);
     hamburger.addEventListener('click', toggleAdaptiveMenu);
     closeburger.addEventListener('click', toggleAdaptiveMenu);
 
@@ -100,7 +102,6 @@ window.addEventListener('DOMContentLoaded', () => {
             activeNav.classList.toggle('active');
             notActiveNav.classList.toggle('active');
         }
-        console.log(slideShift);
         if (slideShift < -1) {
             nextArrow.style.opacity = '50%';
         }
@@ -118,7 +119,6 @@ window.addEventListener('DOMContentLoaded', () => {
             activeNav.classList.toggle('active');
             notActiveNav.classList.toggle('active');
         }
-        console.log(slideShift);
         if (slideShift > 1) {
             prevArrow.style.opacity = '50%';
         }
