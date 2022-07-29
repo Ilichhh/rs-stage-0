@@ -11,6 +11,9 @@ const windSpeed = document.querySelector('.wind');
 const humidity = document.querySelector('.humidity');
 const cityInput = document.querySelector('.city');
 const weatherError = document.querySelector('.weather-error');
+const quote = document.querySelector('.quote');
+const author = document.querySelector('.author');
+const changeQuote = document.querySelector('.change-quote');
 let randomNum;
 
 
@@ -107,6 +110,19 @@ function changeWeather() {
 }
 
 
+// Generate quote
+async function getQuotes() {  
+  const quotes = 'assets/quotes.json';
+  const res = await fetch(quotes);
+  const data = await res.json(); 
+  let randomQuoteNum = Math.floor(Math.random() * data.length);
+  quote.textContent = data[randomQuoteNum].text;
+  data[randomQuoteNum].author !== 'Unknown' ?
+    author.textContent = data[randomQuoteNum].author :
+    author.textContent = '';
+}
+
+
 // Local storage
 function setLocalStorage() {
   const name = document.querySelector('.name');
@@ -138,6 +154,7 @@ getRandomNum();
 generateContent();
 setBg();
 getWeather();
+getQuotes();
 
 window.addEventListener('beforeunload', setLocalStorage)
 window.addEventListener('load', getLocalStorage)
@@ -146,4 +163,9 @@ slideNext.addEventListener('click', getSlideNext);
 slidePrev.addEventListener('click', getSlidePrev);
 
 cityInput.addEventListener('change', changeWeather);
+changeQuote.addEventListener('click', getQuotes);
+
+
+
+
 
