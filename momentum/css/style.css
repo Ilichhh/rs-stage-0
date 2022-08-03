@@ -33,7 +33,7 @@ body {
 
 .track-name {
   text-align: left;
-  padding: 5px;
+  padding: 5px 0 6px;
   opacity: .8;
 }
 
@@ -42,7 +42,7 @@ body {
   width: 140px;
   height: 5px;
   cursor: pointer;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 }
 
 .progress {
@@ -52,12 +52,18 @@ body {
   transition: 0.25s;
 }
 
+.time-and-volume {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 145px;
+  margin-bottom: 5px;
+}
+
 .play-time {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  width: 140px;
-  margin-bottom: 5px;
+  width: 80px;
 }
 
 .player-controls {
@@ -155,8 +161,8 @@ body {
 }
 
 .volume:hover .volume-slider {
-  left: -103px;
-  width: 100px;
+  left: -111px;
+  width: 108px;
 }
 
 .volume-percentage {

@@ -1,23 +1,23 @@
 const playList = [
   {      
-    title: 'Aqua Caelestis',
-    src: 'assets/sounds/Aqua Caelestis.mp3',
-    duration: '00:58'
+    title: 'Metallica - The Unforgiven',
+    src: 'assets/sounds/Metallica - The Unforgiven.mp3',
+  },
+  {      
+    title: 'Pink Floyd - Mother',
+    src: 'assets/sounds/Pink Floyd - Mother.mp3',
   },  
   {      
-    title: 'Ennio Morricone',
-    src: 'assets/sounds/Ennio Morricone.mp3',
-    duration: '03:50'
+    title: 'Motley Crue - Home Sweet Home',
+    src: 'assets/sounds/Motley Crue - Home Sweet Home.mp3',
   },
   {      
-    title: 'River Flows In You',
-    src: 'assets/sounds/River Flows In You.mp3',
-    duration: '03:50'
+    title: 'Doors - Riders On The Storm',
+    src: 'assets/sounds/Doors - Riders On The Storm.mp3',
   },
   {      
-    title: 'Summer Wind',
-    src: 'assets/sounds/Summer Wind.mp3',
-    duration: '03:50'
+    title: 'DIO - Don\'t Talk To Strangers',
+    src: 'assets/sounds/DIO - Don\'t Talk To Strangers.mp3',
   }
 ]
 

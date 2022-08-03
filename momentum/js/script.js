@@ -66,7 +66,7 @@ function showGreeting() {
 
 // Slider
 function getRandomNum() {
-  randomNum = Math.floor(Math.random() * 20);
+  randomNum = Math.ceil(Math.random() * 20);
 }
 
 function setBg() {
@@ -271,11 +271,13 @@ function generateContent() {
   setTimeout(generateContent, 1000);
 }
 
+
 getRandomNum();
 generateContent();
 setBg();
 getWeather();
 getQuotes();
+
 
 window.addEventListener('beforeunload', setLocalStorage)
 window.addEventListener('load', getLocalStorage)
