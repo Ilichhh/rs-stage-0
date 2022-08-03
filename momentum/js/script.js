@@ -114,6 +114,7 @@ async function getWeather() {
     weatherDescription.textContent = data.weather[0].description;
     windSpeed.textContent = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
     humidity.textContent = `Humidity: ${data.main.humidity}%`;
+    weatherError.textContent = ``;
   } catch (err) {
     weatherError.textContent = `Error! city not found for '${weatherData.city}'!`;
     temperature.textContent = ``;
@@ -139,6 +140,7 @@ async function getQuotes() {
   data[randomQuoteNum].author !== 'Unknown' ?
     author.textContent = data[randomQuoteNum].author :
     author.textContent = '';
+  changeQuote.classList.toggle('change-quote-rotate')
 }
 
 
