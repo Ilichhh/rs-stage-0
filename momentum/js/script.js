@@ -1,9 +1,12 @@
+import playListData from './playList.js';
+
 const time = document.querySelector('.time');
 const date = document.querySelector('.date');
 const greeting = document.querySelector('.greeting');
 const body = document.querySelector('body');
 const slideNext = document.querySelector('.slide-next');
 const slidePrev = document.querySelector('.slide-prev');
+
 const weatherIcon = document.querySelector('.weather-icon');
 const temperature = document.querySelector('.temperature');
 const weatherDescription = document.querySelector('.weather-description');
@@ -11,10 +14,26 @@ const windSpeed = document.querySelector('.wind');
 const humidity = document.querySelector('.humidity');
 const cityInput = document.querySelector('.city');
 const weatherError = document.querySelector('.weather-error');
+
 const quote = document.querySelector('.quote');
 const author = document.querySelector('.author');
 const changeQuote = document.querySelector('.change-quote');
+
+const playBtn = document.querySelector('.play');
+const playPrevBtn = document.querySelector('.play-prev');
+const playNextBtn = document.querySelector('.play-next');
+const playList = document.querySelector('.play-list');
+const trackLength = document.querySelector('.length');
+const progressBar = document.querySelector('.progress');
+const currentTime = document.querySelector('.current');
+const timeline = document.querySelector('.timeline');
+const trackName = document.querySelector('.track-name');
+const volumeBtn = document.querySelector(".volume-btn");
+const volumeSlider = document.querySelector('.volume-slider');
+
 let randomNum;
+let isPlay = false;
+let playNum = 0;
 
 
 // Date, Time, Greeting
@@ -123,6 +142,108 @@ async function getQuotes() {
 }
 
 
+// Audio player
+const audio = new Audio();
+
+function playAudio() {
+  audio.src = playListData[playNum].src;
+  audio.currentTime = 0;
+  audio.play();
+  playBtn.classList.add('pause');
+
+  playList.childNodes.forEach(e => {
+    e.className = 'play-item';
+    e.firstChild.className = 'player-icon play-current';
+  });
+  playList.childNodes[playNum].classList.add('item-active');
+  trackName.textContent = playListData[playNum].title;
+
+  let playCurrentBtn = document.querySelectorAll('.play-current')[playNum];
+  playCurrentBtn.classList.add('pause');
+  isPlay = true;
+}
+
+function pauseAudio() {
+  audio.pause();
+  playBtn.classList.remove('pause');
+  let playCurrentBtn = document.querySelectorAll('.play-current')[playNum];
+  playCurrentBtn.classList.remove('pause');
+  isPlay = false;
+}
+
+function toggleAudio() {
+  isPlay ? pauseAudio() : playAudio();
+}
+
+function playNext() {
+  playNum++;
+  if (playNum >= playListData.length) {
+    playNum = 0;
+  }
+  playAudio();
+}
+
+function playPrev() {
+  playNum--;
+  if (playNum < 0) {
+    playNum = playListData.length - 1;
+  }
+  playAudio();
+}
+
+function getTimeCodeFromNum(num) {
+  let seconds = parseInt(num);
+  let minutes = parseInt(seconds / 60);
+  seconds -= minutes * 60;
+  return `${minutes}:${String(seconds % 60).padStart(2, 0)}`;
+}
+
+function updateCurrentPlayTime() {
+  progressBar.style.width = `${audio.currentTime / audio.duration * 100}%`;
+  currentTime.textContent = getTimeCodeFromNum(audio.currentTime);
+}
+
+function updateTimeline(e) {
+  const timelineWidth = window.getComputedStyle(timeline).width;
+  const timeToSeek = e.offsetX / parseInt(timelineWidth) * audio.duration;
+  audio.currentTime = timeToSeek;
+}
+
+function playChosenTrack(index) {
+  if (playNum === index) {
+    toggleAudio();
+  } else {
+    playNum = index;
+    playAudio();
+  }
+}
+
+function toggleVolume() {
+  audio.muted = !audio.muted;
+  volumeBtn.classList.toggle('icono-volumeMedium');
+  volumeBtn.classList.toggle('icono-volumeMute');
+}
+
+function changeVolume(e) {
+  const sliderWidth = window.getComputedStyle(volumeSlider).width;
+  const newVolume = e.offsetX / parseInt(sliderWidth);
+  audio.volume = newVolume;
+  document.querySelector('.volume-percentage').style.width = `${newVolume * 100}%`;
+}
+
+playListData.forEach((e, index) => {
+  const li = document.createElement('li');
+  li.classList.add('play-item');
+  li.textContent = e.title;
+  playList.append(li);
+
+  const playCurrentBtn = document.createElement('button');
+  playCurrentBtn.classList.add('player-icon', 'play-current');
+  li.prepend(playCurrentBtn);
+  playCurrentBtn.addEventListener('click', () => playChosenTrack(index));
+})
+
+
 // Local storage
 function setLocalStorage() {
   const name = document.querySelector('.name');
@@ -165,7 +286,16 @@ slidePrev.addEventListener('click', getSlidePrev);
 cityInput.addEventListener('change', changeWeather);
 changeQuote.addEventListener('click', getQuotes);
 
+playBtn.addEventListener('click', toggleAudio);
+playPrevBtn.addEventListener('click', playPrev);
+playNextBtn.addEventListener('click', playNext);
 
+audio.addEventListener('ended', playNext);
+audio.addEventListener('loadeddata',() => trackLength.textContent = getTimeCodeFromNum(audio.duration));
 
+setInterval(updateCurrentPlayTime, 500);
+timeline.addEventListener('click', updateTimeline);
 
+volumeBtn.addEventListener('click', toggleVolume);
+volumeSlider.addEventListener('click', changeVolume);
 
