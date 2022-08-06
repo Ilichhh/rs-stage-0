@@ -34,19 +34,37 @@ const volumeSlider = document.querySelector('.volume-slider');
 let randomNum;
 let isPlay = false;
 let playNum = 0;
+let lang = 'en';
 
 
 // Date, Time, Greeting
+const greetingTranslation = {
+  en: {
+    night: 'Good night',
+    morning: 'Good morning',
+    afternoon: 'Good afternoon',
+    evening: 'Good evenong',
+    placeholder: '[Enter name]'
+  },
+  ru: {
+    night: 'Доброй ночи',
+    morning: 'Доброе утро',
+    afternoon: 'Добрый день',
+    evening: 'Добрый вечер',
+    placeholder: '[Введи имя]'
+  }
+}
+
 function showTime() {
   const newDate = new Date();
   const currentTime = newDate.toLocaleTimeString('en-GB');
   time.textContent = currentTime;
 }
 
-function showDate() {
+function showDate(lang) {
   const newDate = new Date();
   const options = {weekday: 'long', month: 'long', day: 'numeric'};
-  const currentDate = newDate.toLocaleDateString('en-GB', options);
+  const currentDate = newDate.toLocaleDateString(`${lang}-GB`, options);
   date.textContent = currentDate;
 }
 
@@ -57,10 +75,12 @@ function getTimeOfDay() {
   return timesOfDay[Math.floor(hours / 6)];
 }
 
-function showGreeting() {
+function showGreeting(lang) {
   const timeOfDay = getTimeOfDay();
-  const greetingText = `Good ${timeOfDay},`;
+  const greetingText = greetingTranslation[lang][timeOfDay];
+  const name = document.querySelector('.name');
   greeting.textContent = greetingText;
+  name.placeholder = greetingTranslation[lang]['placeholder'];
 }
 
 
@@ -81,30 +101,40 @@ function setBg() {
 
 function getSlideNext() {
   randomNum++;
-  if (randomNum > 20) {
-    randomNum = 1;
-  }
+  if (randomNum > 20) randomNum = 1;
   setBg();
 }
 
 function getSlidePrev() {
   randomNum--;
-  if (randomNum < 1) {
-    randomNum = 20;
-  }
+  if (randomNum < 1) randomNum = 20;
   setBg();
 }
 
 
 // Weather
 const weatherData = {
-  city: 'Minsk',
-  lang: 'en',
+  en: {
+    city: 'Minsk',
+    windSpeed: 'Wind speed',
+    ms: 'm/s',
+    humidity: 'Humidity',
+    placeholder: '[Enter city]',
+    error: 'Error! city not found for'
+  },
+  ru: {
+    city: 'Минск',
+    windSpeed: 'Скорость ветра',
+    ms: 'м/с',
+    humidity: 'Влажность',
+    placeholder: '[Введи город]',
+    error: 'Упс! Кажется, не существует города'
+  },
   key: '8596f448275a490d36b3d737978cf2df',
 }
 
-async function getWeather() {  
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${weatherData.city}&lang=${weatherData.lang}&appid=${weatherData.key}&units=metric`;
+async function getWeather(lang) {  
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${weatherData[lang].city}&lang=${lang}&appid=${weatherData.key}&units=metric`;
   try {
     const res = await fetch(url);
     const data = await res.json(); 
@@ -112,11 +142,12 @@ async function getWeather() {
     weatherIcon.classList.add(`owf-${data.weather[0].id}`);
     temperature.textContent = `${Math.round(data.main.temp)}°C`;
     weatherDescription.textContent = data.weather[0].description;
-    windSpeed.textContent = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
-    humidity.textContent = `Humidity: ${data.main.humidity}%`;
+    windSpeed.textContent = `${weatherData[lang].windSpeed}: ${Math.round(data.wind.speed)} ${weatherData[lang].ms}`;
+    humidity.textContent = `${weatherData[lang].humidity}: ${data.main.humidity}%`;
+    cityInput.placeholder = weatherData[lang].placeholder;
     weatherError.textContent = ``;
   } catch (err) {
-    weatherError.textContent = `Error! city not found for '${weatherData.city}'!`;
+    weatherError.textContent = `${weatherData[lang].error} '${weatherData.city}'!`;
     temperature.textContent = ``;
     weatherDescription.textContent = ``;
     windSpeed.textContent = ``;
@@ -124,9 +155,9 @@ async function getWeather() {
   }
 }
 
-function changeWeather() {
-  weatherData.city = cityInput.value;
-  getWeather();
+function changeWeather(lang) {
+  weatherData[lang].city = cityInput.value;
+  getWeather(lang);
 }
 
 
@@ -179,17 +210,13 @@ function toggleAudio() {
 
 function playNext() {
   playNum++;
-  if (playNum >= playListData.length) {
-    playNum = 0;
-  }
+  if (playNum >= playListData.length) playNum = 0;
   playAudio();
 }
 
 function playPrev() {
   playNum--;
-  if (playNum < 0) {
-    playNum = playListData.length - 1;
-  }
+  if (playNum < 0) playNum = playListData.length - 1;
   playAudio();
 }
 
@@ -260,7 +287,7 @@ function getLocalStorage() {
   }
   if(localStorage.getItem('city')) {
     cityInput.value = localStorage.getItem('city');
-    changeWeather();
+    changeWeather(lang);
   }
 }
 
@@ -268,8 +295,8 @@ function getLocalStorage() {
 // Generate content
 function generateContent() {
   showTime();
-  showDate();
-  showGreeting();
+  showDate(lang);
+  showGreeting(lang);
   setTimeout(generateContent, 1000);
 }
 
@@ -277,7 +304,7 @@ function generateContent() {
 getRandomNum();
 generateContent();
 setBg();
-getWeather();
+getWeather(lang);
 getQuotes();
 
 
@@ -287,7 +314,7 @@ window.addEventListener('load', getLocalStorage)
 slideNext.addEventListener('click', getSlideNext);
 slidePrev.addEventListener('click', getSlidePrev);
 
-cityInput.addEventListener('change', changeWeather);
+cityInput.addEventListener('change', () => changeWeather(lang));
 changeQuote.addEventListener('click', getQuotes);
 
 playBtn.addEventListener('click', toggleAudio);
@@ -302,4 +329,8 @@ timeline.addEventListener('click', updateTimeline);
 
 volumeBtn.addEventListener('click', toggleVolume);
 volumeSlider.addEventListener('click', changeVolume);
+
+
+// Settings
+
 
