@@ -67,12 +67,56 @@
   </main>
 
   <footer class="footer">
-    <button class="change-quote"></button>
-    <div>
-      <div class="quote"></div>
-      <div class="author"></div>
+    <div class="settings-container">
+      <button class="settings-button"></button>
+      <div class="settings">
+        <h2>Settings</h2>
+        <div class="lang-toggle">
+          <span class="setting-name">Language</span>
+          <div class="lang-list">
+            <span class="lang-lable lang-on">EN</span>
+            <span class="lang-lable">RU</span>
+          </div>
+        </div>
+        <ul class="apps-list">
+          <li class="app-toggle">
+            <span class="setting-name">Player</span>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </li>
+          <li class="app-toggle">
+            <span class="setting-name">Weather</span>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </li>
+          <li class="app-toggle">
+            <span class="setting-name">Quotes</span>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quotes-container">
+      <button class="change-quote"></button>
+      <div>
+        <div class="quote"></div>
+        <div class="author"></div>
+      </div>
+    </div>
+
+    <div class="social">
+      <div><a href="https://github.com/Ilichhh"><img src="assets/icons/GitHub-Mark-Light-32px.png" alt="github"></a></div>
     </div>
   </footer>
+
   <script type="module" src="js/script.js"></script>
 </body>
 </html>

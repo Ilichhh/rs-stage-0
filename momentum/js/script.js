@@ -28,13 +28,25 @@ const progressBar = document.querySelector('.progress');
 const currentTime = document.querySelector('.current');
 const timeline = document.querySelector('.timeline');
 const trackName = document.querySelector('.track-name');
-const volumeBtn = document.querySelector(".volume-btn");
+const volumeBtn = document.querySelector('.volume-btn');
 const volumeSlider = document.querySelector('.volume-slider');
+
+const settingsButton = document.querySelector('.settings-button');
+const settingsWindow = document.querySelector('.settings');
+
+const langList = document.querySelector('.lang-list');
 
 let randomNum;
 let isPlay = false;
 let playNum = 0;
-let lang = 'en';
+
+
+const state = {
+  lang: 'en',
+  photoSource: 'github',
+  blocks: ['time', 'date','greeting', 'player', 'weather','quote']
+}
+
 
 
 // Date, Time, Greeting
@@ -64,7 +76,7 @@ function showTime() {
 function showDate(lang) {
   const newDate = new Date();
   const options = {weekday: 'long', month: 'long', day: 'numeric'};
-  const currentDate = newDate.toLocaleDateString(`${lang}-GB`, options);
+  const currentDate = newDate.toLocaleDateString(`${state.lang}-GB`, options);
   date.textContent = currentDate;
 }
 
@@ -77,10 +89,10 @@ function getTimeOfDay() {
 
 function showGreeting(lang) {
   const timeOfDay = getTimeOfDay();
-  const greetingText = greetingTranslation[lang][timeOfDay];
+  const greetingText = greetingTranslation[state.lang][timeOfDay];
   const name = document.querySelector('.name');
   greeting.textContent = greetingText;
-  name.placeholder = greetingTranslation[lang]['placeholder'];
+  name.placeholder = greetingTranslation[state.lang]['placeholder'];
 }
 
 
@@ -134,7 +146,7 @@ const weatherData = {
 }
 
 async function getWeather(lang) {  
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${weatherData[lang].city}&lang=${lang}&appid=${weatherData.key}&units=metric`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${weatherData[state.lang].city}&lang=${state.lang}&appid=${weatherData.key}&units=metric`;
   try {
     const res = await fetch(url);
     const data = await res.json(); 
@@ -142,12 +154,12 @@ async function getWeather(lang) {
     weatherIcon.classList.add(`owf-${data.weather[0].id}`);
     temperature.textContent = `${Math.round(data.main.temp)}°C`;
     weatherDescription.textContent = data.weather[0].description;
-    windSpeed.textContent = `${weatherData[lang].windSpeed}: ${Math.round(data.wind.speed)} ${weatherData[lang].ms}`;
-    humidity.textContent = `${weatherData[lang].humidity}: ${data.main.humidity}%`;
-    cityInput.placeholder = weatherData[lang].placeholder;
+    windSpeed.textContent = `${weatherData[state.lang].windSpeed}: ${Math.round(data.wind.speed)} ${weatherData[state.lang].ms}`;
+    humidity.textContent = `${weatherData[state.lang].humidity}: ${data.main.humidity}%`;
+    cityInput.placeholder = weatherData[state.lang].placeholder;
     weatherError.textContent = ``;
   } catch (err) {
-    weatherError.textContent = `${weatherData[lang].error} '${weatherData.city}'!`;
+    weatherError.textContent = `${weatherData[state.lang].error} '${weatherData.city}'!`;
     temperature.textContent = ``;
     weatherDescription.textContent = ``;
     windSpeed.textContent = ``;
@@ -156,8 +168,8 @@ async function getWeather(lang) {
 }
 
 function changeWeather(lang) {
-  weatherData[lang].city = cityInput.value;
-  getWeather(lang);
+  weatherData[state.lang].city = cityInput.value;
+  getWeather(state.lang);
 }
 
 
@@ -171,7 +183,7 @@ async function getQuotes() {
   data[randomQuoteNum].author !== 'Unknown' ?
     author.textContent = data[randomQuoteNum].author :
     author.textContent = '';
-  changeQuote.classList.toggle('change-quote-rotate')
+  changeQuote.classList.toggle('spin-logo');
 }
 
 
@@ -273,11 +285,29 @@ playListData.forEach((e, index) => {
 })
 
 
+// Settings
+function toggleSettingsWindow() {
+  settingsWindow.classList.toggle('show-element');
+  settingsButton.classList.toggle('spin-logo');
+}
+
+function changeLanguage(event) {
+  if (event.target && !event.target.classList.contains('lang-on')) {
+    langList.childNodes.forEach((i) => i.className = 'lang-lable');
+    event.target.classList.add('lang-on');
+    state.lang = event.target.textContent.toLowerCase();
+    generateContent();
+    getWeather(state.lang);
+  }
+}
+
+
 // Local storage
 function setLocalStorage() {
   const name = document.querySelector('.name');
   localStorage.setItem('name', name.value);
   localStorage.setItem('city', cityInput.value);
+  localStorage.setItem('language', state.lang);
 }
 
 function getLocalStorage() {
@@ -287,7 +317,15 @@ function getLocalStorage() {
   }
   if(localStorage.getItem('city')) {
     cityInput.value = localStorage.getItem('city');
-    changeWeather(lang);
+    changeWeather(state.lang);
+  }
+  if(localStorage.getItem('language')) {
+    state.lang = localStorage.getItem('language');
+    getWeather(state.lang);
+    langList.childNodes.forEach((i) => {
+      i.className = 'lang-lable';
+      if (i.textContent.toLowerCase() === state.lang) i.classList.add('lang-on');
+    });
   }
 }
 
@@ -295,8 +333,8 @@ function getLocalStorage() {
 // Generate content
 function generateContent() {
   showTime();
-  showDate(lang);
-  showGreeting(lang);
+  showDate(state.lang);
+  showGreeting(state.lang);
   setTimeout(generateContent, 1000);
 }
 
@@ -304,7 +342,7 @@ function generateContent() {
 getRandomNum();
 generateContent();
 setBg();
-getWeather(lang);
+getWeather(state.lang);
 getQuotes();
 
 
@@ -314,7 +352,7 @@ window.addEventListener('load', getLocalStorage)
 slideNext.addEventListener('click', getSlideNext);
 slidePrev.addEventListener('click', getSlidePrev);
 
-cityInput.addEventListener('change', () => changeWeather(lang));
+cityInput.addEventListener('change', () => changeWeather(state.lang));
 changeQuote.addEventListener('click', getQuotes);
 
 playBtn.addEventListener('click', toggleAudio);
@@ -330,7 +368,6 @@ timeline.addEventListener('click', updateTimeline);
 volumeBtn.addEventListener('click', toggleVolume);
 volumeSlider.addEventListener('click', changeVolume);
 
-
-// Settings
-
+settingsButton.addEventListener('click', toggleSettingsWindow);
+langList.addEventListener('click', changeLanguage);
 
