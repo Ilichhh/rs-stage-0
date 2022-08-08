@@ -36,6 +36,7 @@ const settingsWindow = document.querySelector('.settings');
 
 const langList = document.querySelector('.lang-list');
 
+let galleryLength;
 let randomNum;
 let isPlay = false;
 let playNum = 0;
@@ -43,10 +44,9 @@ let playNum = 0;
 
 const state = {
   lang: 'en',
-  photoSource: 'github',
+  photoSource: 'flickr',
   blocks: ['time', 'date','greeting', 'player', 'weather','quote']
 }
-
 
 
 // Date, Time, Greeting
@@ -97,15 +97,44 @@ function showGreeting(lang) {
 
 
 // Slider
-function getRandomNum() {
-  randomNum = Math.ceil(Math.random() * 20);
+function getRandomNum(galleryLength) {
+  return Math.ceil(Math.random() * galleryLength);
 }
 
-function setBg() {
-  const timeOfDay = getTimeOfDay();
-  const bgNum = randomNum.toString().padStart(2, '0');
+const unsplashData = {
+  keyword: 'afternoon',
+  key: 'hHIgsp-kcrFx-JWIia7QFObsLjzilnUhwTbsb7ym3I8',
+}
+const flickrData = {
+  keyword: 'afternoon',
+  key: '7a9645eb98c831550e33d00870480d48',
+}
+
+async function getLinkToImage() {
+  let url;
+  if (state.photoSource === 'github') {
+    galleryLength = 20;
+    if (!randomNum) randomNum = getRandomNum(galleryLength);
+    const bgNum = randomNum.toString().padStart(2, '0');
+    const timeOfDay = getTimeOfDay();
+    url = `https://raw.githubusercontent.com/ilichhh/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
+  } else if (state.photoSource === 'unsplash') {
+      const res = await fetch(`https://api.unsplash.com/photos/random?orientation=landscape&query=${unsplashData.keyword}&client_id=${unsplashData.key}`);
+      const data = await res.json(); 
+      url = data.urls.regular;
+    } else if (state.photoSource === 'flickr') {
+        const res = await fetch(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrData.key}&tags=${flickrData.keyword}&extras=url_l&format=json&nojsoncallback=1`);
+        const data = await res.json(); 
+        galleryLength = data.photos.photo.length - 1;
+        if (!randomNum) randomNum = getRandomNum(galleryLength);
+        url = data.photos.photo[randomNum].url_l;
+      }
+  return url;
+}
+
+async function setBg() {
   const img = new Image();
-  img.src = `https://raw.githubusercontent.com/ilichhh/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
+  img.src = await getLinkToImage();
   img.onload = () => {      
     body.style.backgroundImage = `url(${img.src})`;
   };
@@ -113,13 +142,13 @@ function setBg() {
 
 function getSlideNext() {
   randomNum++;
-  if (randomNum > 20) randomNum = 1;
+  if (randomNum > galleryLength) randomNum = 1;
   setBg();
 }
 
 function getSlidePrev() {
   randomNum--;
-  if (randomNum < 1) randomNum = 20;
+  if (randomNum < 1) randomNum = galleryLength;
   setBg();
 }
 
@@ -339,7 +368,6 @@ function generateContent() {
 }
 
 
-getRandomNum();
 generateContent();
 setBg();
 getWeather(state.lang);
