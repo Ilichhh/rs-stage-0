@@ -25,6 +25,15 @@ body {
   opacity: 0;
 }
 
+.player,
+.weather,
+.time,
+.date,
+.greeting-container,
+.quotes-container {
+  transition: .3s;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -362,13 +371,13 @@ body {
 .settings {
   position: absolute;
   width: 350px;
-  height: 400px;
+  height: 450px;
   border-radius: 5px;
   bottom: 70px;
   padding: 15px;
   background-color: rgba(0, 0, 0, 0.64);
   opacity: 0;
-  transition: .4s;
+  transition: .3s;
 }
 
 .show-element {
@@ -443,8 +452,13 @@ setting-name {
   opacity: .8;
 }
 
+.apps-list {
+  margin-bottom: 10px;
+}
+
 .app-toggle,
-.lang-toggle {
+.lang-toggle,
+.bg-settings {
   display: flex;
   justify-content: space-between;
   padding: 5px;
@@ -454,12 +468,14 @@ setting-name {
   margin-bottom: 20px;
 }
 
-.lang-lable {
+.lang-lable,
+.bg-lable {
   opacity: .5;
   cursor: pointer;
 }
 
-.lang-on {
+.lang-on,
+.bg-on {
   opacity: 1;
 }
 

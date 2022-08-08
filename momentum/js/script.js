@@ -35,6 +35,7 @@ const settingsButton = document.querySelector('.settings-button');
 const settingsWindow = document.querySelector('.settings');
 
 const langList = document.querySelector('.lang-list');
+const appTogglers = document.querySelectorAll('input[type="checkbox"]');
 
 let galleryLength;
 let randomNum;
@@ -47,6 +48,17 @@ const state = {
   photoSource: 'flickr',
   blocks: ['time', 'date','greeting', 'player', 'weather','quote']
 }
+
+
+function toggleApp (e) {
+  const app = document.querySelector(`.${e.target.id}`);
+  app.classList.toggle('hidden-block');
+}
+
+appTogglers.forEach(app => {
+  app.addEventListener('click', toggleApp);
+})
+
 
 
 // Date, Time, Greeting
