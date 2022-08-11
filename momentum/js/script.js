@@ -37,6 +37,9 @@ const settingsWindow = document.querySelector('.settings');
 const langList = document.querySelector('.lang-list');
 const appTogglers = document.querySelectorAll('input[type="checkbox"]');
 
+const coinsList = document.querySelector('.coins-list');
+const coinInput = document.querySelector('.new-coin');
+
 let galleryLength;
 let randomNum;
 let isPlay = false;
@@ -45,19 +48,9 @@ let playNum = 0;
 
 const state = {
   lang: 'en',
-  photoSource: 'flickr',
+  photoSource: 'github',
   blocks: ['time', 'date','greeting', 'player', 'weather','quote']
 }
-
-
-function toggleApp (e) {
-  const app = document.querySelector(`.${e.target.id}`);
-  app.classList.toggle('hidden-block');
-}
-
-appTogglers.forEach(app => {
-  app.addEventListener('click', toggleApp);
-})
 
 
 
@@ -104,7 +97,7 @@ function showGreeting(lang) {
   const greetingText = greetingTranslation[state.lang][timeOfDay];
   const name = document.querySelector('.name');
   greeting.textContent = greetingText;
-  name.placeholder = greetingTranslation[state.lang]['placeholder'];
+  name.placeholder = greetingTranslation[state.lang].placeholder;
 }
 
 
@@ -328,7 +321,7 @@ playListData.forEach((e, index) => {
 
 // Settings
 function toggleSettingsWindow() {
-  settingsWindow.classList.toggle('show-element');
+  settingsWindow.classList.toggle('show-settings');
   settingsButton.classList.toggle('spin-logo');
 }
 
@@ -342,12 +335,20 @@ function changeLanguage(event) {
   }
 }
 
+function toggleApp (e) {
+  const app = document.querySelector(`.${e.target.id}`);
+  app.classList.toggle('hidden-block');
+}
+
+
+
 
 // Local storage
 function setLocalStorage() {
   const name = document.querySelector('.name');
   localStorage.setItem('name', name.value);
   localStorage.setItem('city', cityInput.value);
+  localStorage.setItem('coinIDs', coinIDs);
   localStorage.setItem('language', state.lang);
 }
 
@@ -359,6 +360,10 @@ function getLocalStorage() {
   if(localStorage.getItem('city')) {
     cityInput.value = localStorage.getItem('city');
     changeWeather(state.lang);
+  }
+  if(localStorage.getItem('coinIDs')) {
+    coinIDs = localStorage.getItem('coinIDs').split(',');
+    getCryptoPrice(coinIDs);
   }
   if(localStorage.getItem('language')) {
     state.lang = localStorage.getItem('language');
@@ -410,4 +415,67 @@ volumeSlider.addEventListener('click', changeVolume);
 
 settingsButton.addEventListener('click', toggleSettingsWindow);
 langList.addEventListener('click', changeLanguage);
+appTogglers.forEach(app => app.addEventListener('click', toggleApp));
+
+
+// Crypto charts
+let coinIDs = ['bitcoin', 'ethereum', 'everscale', 'moonbeam'];
+
+function createCoinBlock(coin) {
+  const coinBlock = document.createElement('div');
+  const coinSymbol = document.createElement('span');
+  const coinPrice = document.createElement('span');
+  const coin24hChange = document.createElement('span');
+  coinsList.append(coinBlock);
+  coinBlock.append(coinSymbol);
+  coinBlock.append(coinPrice);
+  coinBlock.append(coin24hChange);
+  coinBlock.classList.add('coin', coin.id);
+  coinSymbol.classList.add('coin-param', 'coin-label');
+  coinPrice.classList.add('coin-param', 'coin-price');
+  coin24hChange.classList.add('coin-param', 'coin-24h-change');
+
+  coin.price_change_percentage_24h > 0 ? 
+    coin24hChange.classList.add('coin-price-up') : 
+    coin24hChange.classList.add('coin-price-down');
+  
+  const internationalNumberFormat = new Intl.NumberFormat('en-US')
+
+  coinSymbol.textContent = `${coin.symbol.toUpperCase()}:`;
+  coinPrice.textContent = `$${internationalNumberFormat.format(coin.current_price)}`;
+  coin24hChange.textContent = `${coin.price_change_percentage_24h.toFixed(1)}%`;
+
+  const deleteCoinBtn = document.createElement('button');
+  deleteCoinBtn.classList.add('delete-coin-btn', 'icono-crossCircle');
+  coinBlock.append(deleteCoinBtn);
+  deleteCoinBtn.addEventListener('click', deleteCoin);
+}
+
+
+async function getCryptoPrice(coinIDs) {
+  if (Array.isArray(coinIDs)) {
+    coinIDs = coinIDs.join('%2C%20');
+  }
+  const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinIDs}&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
+    const res = await fetch(url);
+    const data = await res.json();
+    data.length > 0 ?
+      data.forEach(createCoinBlock) :
+      console.log('oops');
+}
+
+function addNewCoin() {
+  coinIDs.push(coinInput.value);
+  getCryptoPrice(coinInput.value);
+  coinInput.value = '';
+}
+
+function deleteCoin(e) {
+  console.log(typeof coinIDs);
+  coinIDs = coinIDs.filter(coin => coin !== e.target.parentElement.className.split(' ')[1]);
+  e.target.parentElement.remove();
+}
+
+
+coinInput.addEventListener('change', addNewCoin);
 

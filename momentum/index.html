@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="assets/favicon.ico" rel="shortcut icon" />
   <link rel="stylesheet" href="css/owfont-regular.css" />
-  <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/icono.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
   <title>momentum</title>
 </head>
 
@@ -36,6 +36,10 @@
         <button class="play-next player-icon"></button>
       </div>
       <ul class="play-list"></ul>
+    </div>
+
+    <div class="coins-list">
+      <input type="text" class="new-coin"/>
     </div>
 
     <div class="weather">
@@ -71,13 +75,6 @@
       <button class="settings-button"></button>
       <div class="settings">
         <h2>Settings</h2>
-        <div class="lang-toggle">
-          <span class="setting-name">Language</span>
-          <div class="lang-list">
-            <span class="lang-lable lang-on">EN</span>
-            <span class="lang-lable">RU</span>
-          </div>
-        </div>
         <ul class="apps-list">
           <li class="app-toggle">
             <span class="setting-name">Time</span>
@@ -108,9 +105,23 @@
             </label>
           </li>
           <li class="app-toggle">
+            <span class="setting-name">Crypto</span>
+            <label class="switch" for="coins-list">
+              <input type="checkbox" id="coins-list" checked>
+              <span class="slider"></span>
+            </label>
+          </li>
+          <li class="app-toggle">
             <span class="setting-name">Weather</span>
             <label class="switch" for="weather">
               <input type="checkbox" id="weather" checked>
+              <span class="slider"></span>
+            </label>
+          </li>
+          <li class="app-toggle">
+            <span class="setting-name">TODO</span>
+            <label class="switch" for="todo">
+              <input type="checkbox" id="todo">
               <span class="slider"></span>
             </label>
           </li>
@@ -128,6 +139,13 @@
             <span class="bg-lable bg-on">GitHub</span>
             <span class="bg-lable">Unsplash</span>
             <span class="bg-lable">Flickr</span>
+          </div>
+        </div>
+        <div class="lang-toggle">
+          <span class="setting-name">Language</span>
+          <div class="lang-list">
+            <span class="lang-lable lang-on">EN</span>
+            <span class="lang-lable">RU</span>
           </div>
         </div>
       </div>
