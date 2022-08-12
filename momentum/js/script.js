@@ -2,6 +2,7 @@ import playListData from './playList.js';
 
 const time = document.querySelector('.time');
 const date = document.querySelector('.date');
+const name = document.querySelector('.name');
 const greeting = document.querySelector('.greeting');
 const body = document.querySelector('body');
 const slideNext = document.querySelector('.slide-next');
@@ -34,7 +35,7 @@ const volumeSlider = document.querySelector('.volume-slider');
 const settingsButton = document.querySelector('.settings-button');
 const settingsWindow = document.querySelector('.settings');
 
-const langList = document.querySelector('.lang-list');
+const langList = document.querySelectorAll('.lang-lable');
 const appTogglers = document.querySelectorAll('input[type="checkbox"]');
 
 const coinsList = document.querySelector('.coins-list');
@@ -49,12 +50,11 @@ let playNum = 0;
 const state = {
   lang: 'en',
   photoSource: 'github',
-  blocks: ['time', 'date','greeting', 'player', 'weather','quote']
+  blocks: ['time', 'date','greeting', 'player', 'weather','quote'],
+  coinIDs: ['bitcoin', 'ethereum', 'everscale', 'moonbeam']
 }
 
 
-
-// Date, Time, Greeting
 const greetingTranslation = {
   en: {
     night: 'Good night',
@@ -72,6 +72,39 @@ const greetingTranslation = {
   }
 }
 
+const unsplashData = {
+  keyword: 'afternoon',
+  key: 'hHIgsp-kcrFx-JWIia7QFObsLjzilnUhwTbsb7ym3I8',
+}
+const flickrData = {
+  keyword: 'afternoon',
+  key: '7a9645eb98c831550e33d00870480d48',
+}
+
+const weatherData = {
+  en: {
+    city: 'Minsk',
+    windSpeed: 'Wind speed',
+    ms: 'm/s',
+    humidity: 'Humidity',
+    placeholder: '[Enter city]',
+    error: 'Error! city not found for'
+  },
+  ru: {
+    city: 'Минск',
+    windSpeed: 'Скорость ветра',
+    ms: 'м/с',
+    humidity: 'Влажность',
+    placeholder: '[Введи город]',
+    error: 'Упс! Кажется, не существует города'
+  },
+  key: '8596f448275a490d36b3d737978cf2df',
+}
+
+
+
+
+// Date, Time, Greeting
 function showTime() {
   const newDate = new Date();
   const currentTime = newDate.toLocaleTimeString('en-GB');
@@ -81,7 +114,7 @@ function showTime() {
 function showDate(lang) {
   const newDate = new Date();
   const options = {weekday: 'long', month: 'long', day: 'numeric'};
-  const currentDate = newDate.toLocaleDateString(`${state.lang}-GB`, options);
+  const currentDate = newDate.toLocaleDateString(`${lang}-GB`, options);
   date.textContent = currentDate;
 }
 
@@ -94,25 +127,16 @@ function getTimeOfDay() {
 
 function showGreeting(lang) {
   const timeOfDay = getTimeOfDay();
-  const greetingText = greetingTranslation[state.lang][timeOfDay];
+  const greetingText = greetingTranslation[lang][timeOfDay];
   const name = document.querySelector('.name');
   greeting.textContent = greetingText;
-  name.placeholder = greetingTranslation[state.lang].placeholder;
+  name.placeholder = greetingTranslation[lang].placeholder;
 }
 
 
 // Slider
 function getRandomNum(galleryLength) {
   return Math.ceil(Math.random() * galleryLength);
-}
-
-const unsplashData = {
-  keyword: 'afternoon',
-  key: 'hHIgsp-kcrFx-JWIia7QFObsLjzilnUhwTbsb7ym3I8',
-}
-const flickrData = {
-  keyword: 'afternoon',
-  key: '7a9645eb98c831550e33d00870480d48',
 }
 
 async function getLinkToImage() {
@@ -159,28 +183,8 @@ function getSlidePrev() {
 
 
 // Weather
-const weatherData = {
-  en: {
-    city: 'Minsk',
-    windSpeed: 'Wind speed',
-    ms: 'm/s',
-    humidity: 'Humidity',
-    placeholder: '[Enter city]',
-    error: 'Error! city not found for'
-  },
-  ru: {
-    city: 'Минск',
-    windSpeed: 'Скорость ветра',
-    ms: 'м/с',
-    humidity: 'Влажность',
-    placeholder: '[Введи город]',
-    error: 'Упс! Кажется, не существует города'
-  },
-  key: '8596f448275a490d36b3d737978cf2df',
-}
-
 async function getWeather(lang) {  
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${weatherData[state.lang].city}&lang=${state.lang}&appid=${weatherData.key}&units=metric`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${weatherData[lang].city}&lang=${lang}&appid=${weatherData.key}&units=metric`;
   try {
     const res = await fetch(url);
     const data = await res.json(); 
@@ -188,12 +192,12 @@ async function getWeather(lang) {
     weatherIcon.classList.add(`owf-${data.weather[0].id}`);
     temperature.textContent = `${Math.round(data.main.temp)}°C`;
     weatherDescription.textContent = data.weather[0].description;
-    windSpeed.textContent = `${weatherData[state.lang].windSpeed}: ${Math.round(data.wind.speed)} ${weatherData[state.lang].ms}`;
-    humidity.textContent = `${weatherData[state.lang].humidity}: ${data.main.humidity}%`;
-    cityInput.placeholder = weatherData[state.lang].placeholder;
+    windSpeed.textContent = `${weatherData[lang].windSpeed}: ${Math.round(data.wind.speed)} ${weatherData[lang].ms}`;
+    humidity.textContent = `${weatherData[lang].humidity}: ${data.main.humidity}%`;
+    cityInput.placeholder = weatherData[lang].placeholder;
     weatherError.textContent = ``;
   } catch (err) {
-    weatherError.textContent = `${weatherData[state.lang].error} '${weatherData.city}'!`;
+    weatherError.textContent = `${weatherData[lang].error} '${weatherData.city}'!`;
     temperature.textContent = ``;
     weatherDescription.textContent = ``;
     windSpeed.textContent = ``;
@@ -202,14 +206,69 @@ async function getWeather(lang) {
 }
 
 function changeWeather(lang) {
-  weatherData[state.lang].city = cityInput.value;
-  getWeather(state.lang);
+  weatherData[lang].city = cityInput.value;
+  getWeather(lang);
+}
+
+
+// Crypto charts
+function createCoinBlock(coin) {
+  const coinBlock = document.createElement('div');
+  const coinSymbol = document.createElement('span');
+  const coinPrice = document.createElement('span');
+  const coin24hChange = document.createElement('span');
+  coinsList.append(coinBlock);
+  coinBlock.append(coinSymbol);
+  coinBlock.append(coinPrice);
+  coinBlock.append(coin24hChange);
+  coinBlock.classList.add('coin', coin.id);
+  coinSymbol.classList.add('coin-param', 'coin-label');
+  coinPrice.classList.add('coin-param', 'coin-price');
+  coin24hChange.classList.add('coin-param', 'coin-24h-change');
+
+  coin.price_change_percentage_24h > 0 ? 
+    coin24hChange.classList.add('coin-price-up') : 
+    coin24hChange.classList.add('coin-price-down');
+  
+  const internationalNumberFormat = new Intl.NumberFormat('en-US')
+
+  coinSymbol.textContent = `${coin.symbol.toUpperCase()}:`;
+  coinPrice.textContent = `$${internationalNumberFormat.format(coin.current_price)}`;
+  coin24hChange.textContent = `${coin.price_change_percentage_24h.toFixed(1)}%`;
+
+  const deleteCoinBtn = document.createElement('button');
+  deleteCoinBtn.classList.add('delete-coin-btn', 'icono-crossCircle');
+  coinBlock.append(deleteCoinBtn);
+  deleteCoinBtn.addEventListener('click', deleteCoin);
+}
+
+async function getCryptoPrice(coinIDs) {
+  if (Array.isArray(coinIDs)) {
+    coinIDs = coinIDs.join('%2C%20');
+  }
+  const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinIDs}&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
+    const res = await fetch(url);
+    const data = await res.json();
+    data.length > 0 ?
+      data.forEach(createCoinBlock) :
+      console.log('oops');
+}
+
+function addNewCoin() {
+  state.coinIDs.push(coinInput.value);
+  getCryptoPrice(coinInput.value);
+  coinInput.value = '';
+}
+
+function deleteCoin(e) {
+  state.coinIDs = state.coinIDs.filter(coin => coin !== e.target.parentElement.className.split(' ')[1]);
+  e.target.parentElement.remove();
 }
 
 
 // Generate quote
-async function getQuotes() {  
-  const quotes = 'assets/quotes.json';
+async function getQuotes(lang) {  
+  const quotes = `assets/quotes-${lang}.json`;
   const res = await fetch(quotes);
   const data = await res.json(); 
   let randomQuoteNum = Math.floor(Math.random() * data.length);
@@ -320,59 +379,50 @@ playListData.forEach((e, index) => {
 
 
 // Settings
+const settingsData = {
+  en: {
+    header: 'Settings',
+    apps: ['Time', 'Data', 'Greeting', 'Player', 'Crypto', 'Weather', 'ToDo', 'Quotes'], 
+    bg: 'Background',
+    lang: 'Language'
+  },
+  ru: {
+    header: 'Настройки',
+    apps: ['Время', 'Дата', 'Приветствие', 'Плеер', 'Курс валют', 'Погода', 'ToDo', 'Цитаты'], 
+    bg: 'Фон',
+    lang: 'Язык'
+  }
+}
+
 function toggleSettingsWindow() {
   settingsWindow.classList.toggle('show-settings');
   settingsButton.classList.toggle('spin-logo');
 }
 
-function changeLanguage(event) {
-  if (event.target && !event.target.classList.contains('lang-on')) {
-    langList.childNodes.forEach((i) => i.className = 'lang-lable');
-    event.target.classList.add('lang-on');
-    state.lang = event.target.textContent.toLowerCase();
-    generateContent();
-    getWeather(state.lang);
-  }
+function setLanguage(lang) {
+  state.lang = lang;
+  const settingsHeader = document.querySelector('.settings>h2');
+  const appsNames = document.querySelectorAll('.app-toggle>.setting-name');
+  const bgSettingName = document.querySelector('.bg-settings>.setting-name');
+  const langSettingName = document.querySelector('.lang-toggle>.setting-name');
+  settingsHeader.textContent = settingsData[lang].header;
+  appsNames.forEach((app, i) => app.textContent = settingsData[state.lang].apps[i]);
+  bgSettingName.textContent = settingsData[lang].bg;
+  langSettingName.textContent = settingsData[lang].lang;
+
+  langList.forEach((e) => {
+    e.className = ('lang-lable');
+    if (e.textContent.toLowerCase() === lang) e.classList.add('lang-on');
+  })
+
+  generateContent();
+  getWeather(lang);
+  getQuotes(lang);
 }
 
 function toggleApp (e) {
   const app = document.querySelector(`.${e.target.id}`);
   app.classList.toggle('hidden-block');
-}
-
-
-
-
-// Local storage
-function setLocalStorage() {
-  const name = document.querySelector('.name');
-  localStorage.setItem('name', name.value);
-  localStorage.setItem('city', cityInput.value);
-  localStorage.setItem('coinIDs', coinIDs);
-  localStorage.setItem('language', state.lang);
-}
-
-function getLocalStorage() {
-  if(localStorage.getItem('name')) {
-    const name = document.querySelector('.name');
-    name.value = localStorage.getItem('name');
-  }
-  if(localStorage.getItem('city')) {
-    cityInput.value = localStorage.getItem('city');
-    changeWeather(state.lang);
-  }
-  if(localStorage.getItem('coinIDs')) {
-    coinIDs = localStorage.getItem('coinIDs').split(',');
-    getCryptoPrice(coinIDs);
-  }
-  if(localStorage.getItem('language')) {
-    state.lang = localStorage.getItem('language');
-    getWeather(state.lang);
-    langList.childNodes.forEach((i) => {
-      i.className = 'lang-lable';
-      if (i.textContent.toLowerCase() === state.lang) i.classList.add('lang-on');
-    });
-  }
 }
 
 
@@ -385,11 +435,33 @@ function generateContent() {
 }
 
 
-generateContent();
-setBg();
-getWeather(state.lang);
-getQuotes();
+// Local storage
+function setLocalStorage() {
+  const name = document.querySelector('.name');
+  localStorage.setItem('name', name.value);
+  localStorage.setItem('city', cityInput.value);
+  localStorage.setItem('coinIDs', state.coinIDs);
+  localStorage.setItem('language', state.lang);
+}
 
+function getLocalStorage() {
+  if(localStorage.getItem('name')) {
+    name.value = localStorage.getItem('name');
+  }
+  if(localStorage.getItem('city')) {
+    cityInput.value = localStorage.getItem('city');
+  }
+  if(localStorage.getItem('coinIDs')) {
+    state.coinIDs = localStorage.getItem('coinIDs').split(',');
+  }
+  if(localStorage.getItem('language')) {
+    state.lang = localStorage.getItem('language');
+  };
+  setLanguage(state.lang)
+  getCryptoPrice(state.coinIDs);
+}
+
+setBg();
 
 window.addEventListener('beforeunload', setLocalStorage)
 window.addEventListener('load', getLocalStorage)
@@ -398,7 +470,7 @@ slideNext.addEventListener('click', getSlideNext);
 slidePrev.addEventListener('click', getSlidePrev);
 
 cityInput.addEventListener('change', () => changeWeather(state.lang));
-changeQuote.addEventListener('click', getQuotes);
+changeQuote.addEventListener('click', () => getQuotes(state.lang));
 
 playBtn.addEventListener('click', toggleAudio);
 playPrevBtn.addEventListener('click', playPrev);
@@ -414,67 +486,13 @@ volumeBtn.addEventListener('click', toggleVolume);
 volumeSlider.addEventListener('click', changeVolume);
 
 settingsButton.addEventListener('click', toggleSettingsWindow);
-langList.addEventListener('click', changeLanguage);
+
+langList.forEach(lang => {
+  lang.addEventListener('click', (e) => setLanguage(e.target.textContent.toLowerCase()));
+}) 
+
+
 appTogglers.forEach(app => app.addEventListener('click', toggleApp));
-
-
-// Crypto charts
-let coinIDs = ['bitcoin', 'ethereum', 'everscale', 'moonbeam'];
-
-function createCoinBlock(coin) {
-  const coinBlock = document.createElement('div');
-  const coinSymbol = document.createElement('span');
-  const coinPrice = document.createElement('span');
-  const coin24hChange = document.createElement('span');
-  coinsList.append(coinBlock);
-  coinBlock.append(coinSymbol);
-  coinBlock.append(coinPrice);
-  coinBlock.append(coin24hChange);
-  coinBlock.classList.add('coin', coin.id);
-  coinSymbol.classList.add('coin-param', 'coin-label');
-  coinPrice.classList.add('coin-param', 'coin-price');
-  coin24hChange.classList.add('coin-param', 'coin-24h-change');
-
-  coin.price_change_percentage_24h > 0 ? 
-    coin24hChange.classList.add('coin-price-up') : 
-    coin24hChange.classList.add('coin-price-down');
-  
-  const internationalNumberFormat = new Intl.NumberFormat('en-US')
-
-  coinSymbol.textContent = `${coin.symbol.toUpperCase()}:`;
-  coinPrice.textContent = `$${internationalNumberFormat.format(coin.current_price)}`;
-  coin24hChange.textContent = `${coin.price_change_percentage_24h.toFixed(1)}%`;
-
-  const deleteCoinBtn = document.createElement('button');
-  deleteCoinBtn.classList.add('delete-coin-btn', 'icono-crossCircle');
-  coinBlock.append(deleteCoinBtn);
-  deleteCoinBtn.addEventListener('click', deleteCoin);
-}
-
-
-async function getCryptoPrice(coinIDs) {
-  if (Array.isArray(coinIDs)) {
-    coinIDs = coinIDs.join('%2C%20');
-  }
-  const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinIDs}&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
-    const res = await fetch(url);
-    const data = await res.json();
-    data.length > 0 ?
-      data.forEach(createCoinBlock) :
-      console.log('oops');
-}
-
-function addNewCoin() {
-  coinIDs.push(coinInput.value);
-  getCryptoPrice(coinInput.value);
-  coinInput.value = '';
-}
-
-function deleteCoin(e) {
-  console.log(typeof coinIDs);
-  coinIDs = coinIDs.filter(coin => coin !== e.target.parentElement.className.split(' ')[1]);
-  e.target.parentElement.remove();
-}
 
 
 coinInput.addEventListener('change', addNewCoin);
