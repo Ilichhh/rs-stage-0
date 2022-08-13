@@ -8,7 +8,8 @@
 .date,
 .greeting-container,
 .quotes-container,
-.coins-list {
+.coins-list,
+.task-list {
   transition: .3s;
 }
 
@@ -28,7 +29,8 @@
 .change-quote,
 .settings-button,
 .social,
-.delete-coin-btn {
+.delete-coin-btn,
+.delete-task-btn {
   width: 32px;
   height: 32px;
   background-size: 32px 32px;
@@ -214,7 +216,8 @@
   flex-wrap: wrap;
 }
 
-.coin {
+.coin,
+.task {
   position: relative;
   display: flex;
   justify-content: flex-start;
@@ -246,7 +249,8 @@
   order: 1;
 }
 
-.new-coin {
+.new-coin,
+.new-task {
   width: 200px;
   height: 26px;
   font-size: 16px;
@@ -268,7 +272,8 @@
   opacity: 0.5;
 }
 
-.new-coin::placeholder {
+.new-coin::placeholder,
+.new-task::placeholder {
   transition: 0.5s;
   opacity: 0;
 }
@@ -279,15 +284,18 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.new-coin:hover {
+.new-coin:hover,
+.new-task:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.new-coin:hover::placeholder {
+.new-coin:hover::placeholder,
+.new-task:hover::placeholder {
   opacity: 1;
 }
 
-.delete-coin-btn {
+.delete-coin-btn,
+.delete-task-btn {
   position: absolute;
   right: -2px;
   top: -5px;
@@ -465,4 +473,20 @@
 
 .author {
   min-height: 20px;
+}
+
+
+/* TD------------------------------------------- */
+
+.task {
+  position: relative;
+  opacity: 0.8;
+}
+
+.task:hover .delete-task-btn {
+  display: block;
+}
+
+.task:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }

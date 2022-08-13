@@ -46,6 +46,10 @@ const bgList = document.querySelectorAll('.bg-lable');
 const bgTagInput = document.querySelector('.bg-tag');
 const bgGhDescr = document.querySelector('.bg-gh-description');
 
+const taskList = document.querySelector('.task-list');
+const taskInput = document.querySelector('.new-task');
+
+
 let galleryLength;
 let randomNum;
 let isPlay = false;
@@ -57,7 +61,8 @@ const state = {
   photoSource: 'github',
   bgTag: '',
   apps: ['time', 'date','greeting-container', 'player', 'coins-list', 'weather', 'todo', 'quotes-container'],
-  coinIDs: ['bitcoin', 'ethereum', 'everscale', 'moonbeam']
+  coinIDs: ['bitcoin', 'ethereum', 'everscale', 'moonbeam'],
+  tasks: []
 }
 
 const greetingTranslation = {
@@ -495,6 +500,7 @@ function setLocalStorage() {
   localStorage.setItem('name', name.value);
   localStorage.setItem('city', cityInput.value);
   localStorage.setItem('coinIDs', state.coinIDs);
+  localStorage.setItem('tasks', state.tasks);
   localStorage.setItem('language', state.lang);
   localStorage.setItem('bgTag', bgTagInput.value);
   localStorage.setItem('photoSource', state.photoSource);
@@ -512,6 +518,10 @@ function getLocalStorage() {
   }
   if(localStorage.getItem('coinIDs')) {
     state.coinIDs = localStorage.getItem('coinIDs').split(',');
+  }
+  if(localStorage.getItem('tasks')) {
+    state.tasks = localStorage.getItem('tasks').split(',');
+    state.tasks.forEach(task => createTask(task));
   }
   if(localStorage.getItem('language')) {
     state.lang = localStorage.getItem('language');
@@ -581,3 +591,36 @@ bgList.forEach(bg => {
 }) 
 
 bgTagInput.addEventListener('change', () => setBg(state.photoSource, bgTagInput.value));
+
+
+// TD
+function createTask(name) {
+  const taskBlock = document.createElement('div');
+  const taskName = document.createElement('span');
+  taskList.append(taskBlock);
+  taskBlock.append(taskName);
+  taskBlock.classList.add('task');
+  taskName.classList.add('task-name');
+
+  taskName.textContent = name;
+  taskInput.value = '';
+
+  const deleteTaskBtn = document.createElement('button');
+  deleteTaskBtn.classList.add('delete-task-btn', 'icono-crossCircle');
+  taskBlock.append(deleteTaskBtn);
+  deleteTaskBtn.addEventListener('click', deleteTask);
+}
+
+function addNewTask() {
+  state.tasks.push(taskInput.value);
+  createTask(taskInput.value);
+  taskInput.value = '';
+}
+
+function deleteTask(e) {
+  state.tasks = state.tasks.filter(task => task !== e.target.parentElement.textContent);
+  e.target.parentElement.remove();
+}
+
+
+taskInput.addEventListener('change', addNewTask);
