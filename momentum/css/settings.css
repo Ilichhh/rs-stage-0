@@ -8,7 +8,7 @@
 .settings {
   position: absolute;
   width: 350px;
-  height: 450px;
+  height: 500px;
   border-radius: 5px;
   bottom: 70px;
   padding: 15px;
@@ -88,7 +88,8 @@ input:checked + .slider:before {
   opacity: .8;
 }
 
-.apps-list {
+.apps-list,
+.bg-settings {
   margin-bottom: 15px;
 }
 
@@ -98,6 +99,18 @@ input:checked + .slider:before {
   display: flex;
   justify-content: space-between;
   padding: 5px;
+}
+
+
+.bg-tag {
+  height: 30px;
+  font-size: 16px;
+  line-height: 20px;
+  color: #fff;  
+  border: 0;
+  outline: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: transparent;
 }
 
 .lang-toggle {

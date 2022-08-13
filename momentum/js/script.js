@@ -41,6 +41,9 @@ const appTogglers = document.querySelectorAll('input[type="checkbox"]');
 const coinsList = document.querySelector('.coins-list');
 const coinInput = document.querySelector('.new-coin');
 
+const bgList = document.querySelectorAll('.bg-lable');
+const bgTagInput = document.querySelector('.bg-tag');
+
 let galleryLength;
 let randomNum;
 let isPlay = false;
@@ -50,9 +53,12 @@ let playNum = 0;
 const state = {
   lang: 'en',
   photoSource: 'github',
-  blocks: ['time', 'date','greeting', 'player', 'weather','quote'],
+  bgTag: '',
+  apps: ['time', 'date','greeting-container', 'player', 'coins-list', 'weather', 'todo', 'quotes-container'],
   coinIDs: ['bitcoin', 'ethereum', 'everscale', 'moonbeam']
 }
+
+
 
 
 const greetingTranslation = {
@@ -73,11 +79,9 @@ const greetingTranslation = {
 }
 
 const unsplashData = {
-  keyword: 'afternoon',
   key: 'hHIgsp-kcrFx-JWIia7QFObsLjzilnUhwTbsb7ym3I8',
 }
 const flickrData = {
-  keyword: 'afternoon',
   key: '7a9645eb98c831550e33d00870480d48',
 }
 
@@ -100,8 +104,6 @@ const weatherData = {
   },
   key: '8596f448275a490d36b3d737978cf2df',
 }
-
-
 
 
 // Date, Time, Greeting
@@ -139,21 +141,23 @@ function getRandomNum(galleryLength) {
   return Math.ceil(Math.random() * galleryLength);
 }
 
-async function getLinkToImage() {
+async function getLinkToImage(photoSource, tag) {
   let url;
-  if (state.photoSource === 'github') {
+  bgTagInput.value.length ? tag = bgTagInput.value : tag = getTimeOfDay();
+
+  if (photoSource === 'github') {
+    tag = getTimeOfDay()
     galleryLength = 20;
-    if (!randomNum) randomNum = getRandomNum(galleryLength);
+    if (!randomNum || randomNum > 20) randomNum = getRandomNum(galleryLength);
     const bgNum = randomNum.toString().padStart(2, '0');
-    const timeOfDay = getTimeOfDay();
-    url = `https://raw.githubusercontent.com/ilichhh/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
-  } else if (state.photoSource === 'unsplash') {
-      const res = await fetch(`https://api.unsplash.com/photos/random?orientation=landscape&query=${unsplashData.keyword}&client_id=${unsplashData.key}`);
+    url = `https://raw.githubusercontent.com/ilichhh/stage1-tasks/assets/images/${tag}/${bgNum}.jpg`;
+  } else if (photoSource === 'unsplash') {
+      const res = await fetch(`https://api.unsplash.com/photos/random?orientation=landscape&query=${tag}&client_id=${unsplashData.key}`);
       const data = await res.json(); 
       url = data.urls.regular;
-    } else if (state.photoSource === 'flickr') {
-        const res = await fetch(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrData.key}&tags=${flickrData.keyword}&extras=url_l&format=json&nojsoncallback=1`);
-        const data = await res.json(); 
+    } else if (photoSource === 'flickr') {
+      const res = await fetch(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrData.key}&tags=${tag}&extras=url_l&format=json&nojsoncallback=1`);
+      const data = await res.json(); 
         galleryLength = data.photos.photo.length - 1;
         if (!randomNum) randomNum = getRandomNum(galleryLength);
         url = data.photos.photo[randomNum].url_l;
@@ -161,24 +165,34 @@ async function getLinkToImage() {
   return url;
 }
 
-async function setBg() {
+async function setBg(photoSource, tag) {
   const img = new Image();
-  img.src = await getLinkToImage();
+  img.src = await getLinkToImage(photoSource, tag);
   img.onload = () => {      
     body.style.backgroundImage = `url(${img.src})`;
   };
 }
 
+function setPhotoSource(photoSource, tag) {
+  state.photoSource = photoSource;
+  bgList.forEach((e) => {
+    e.className = ('bg-lable');
+    if (e.textContent.toLowerCase() === photoSource) e.classList.add('bg-on');
+  })
+
+  setBg(photoSource, tag);
+}
+
 function getSlideNext() {
   randomNum++;
   if (randomNum > galleryLength) randomNum = 1;
-  setBg();
+  setBg(state.photoSource, state.bgTag);
 }
 
 function getSlidePrev() {
   randomNum--;
   if (randomNum < 1) randomNum = galleryLength;
-  setBg();
+  setBg(state.photoSource, state.bgTag);
 }
 
 
@@ -420,9 +434,20 @@ function setLanguage(lang) {
   getQuotes(lang);
 }
 
-function toggleApp (e) {
-  const app = document.querySelector(`.${e.target.id}`);
-  app.classList.toggle('hidden-block');
+function hideApp (app) {
+  app.classList.add('hidden-block');
+  state.apps = state.apps.filter(i => i !== app.classList[0])
+}
+
+function showApp (app) {
+  app.classList.remove('hidden-block');
+  state.apps.push(app.classList[0])
+}
+
+
+function toggleApp (toggler) {
+  const app = document.querySelector(`.${toggler.target.id}`);
+  toggler.target.checked ? showApp(app) : hideApp(app);
 }
 
 
@@ -442,6 +467,9 @@ function setLocalStorage() {
   localStorage.setItem('city', cityInput.value);
   localStorage.setItem('coinIDs', state.coinIDs);
   localStorage.setItem('language', state.lang);
+  localStorage.setItem('bgTag', bgTagInput.value);
+  localStorage.setItem('photoSource', state.photoSource);
+  localStorage.setItem('apps', state.apps);
 }
 
 function getLocalStorage() {
@@ -457,11 +485,29 @@ function getLocalStorage() {
   if(localStorage.getItem('language')) {
     state.lang = localStorage.getItem('language');
   };
+  if(localStorage.getItem('bgTag')) {
+    state.bgTag = localStorage.getItem('bgTag');
+  };
+  if(localStorage.getItem('photoSource')) {
+    state.photoSource = localStorage.getItem('photoSource');
+  };
+  if(localStorage.getItem('apps')) {
+    state.apps = localStorage.getItem('apps').split(',');
+  };
+  setPhotoSource(state.photoSource, state.bgTag);
   setLanguage(state.lang)
   getCryptoPrice(state.coinIDs);
+
+  appTogglers.forEach(toggler => {
+    if (!state.apps.includes(toggler.id)) {
+      hideApp(document.querySelector(`.${toggler.id}`));
+      toggler.checked = false;
+    }
+  })
 }
 
-setBg();
+
+
 
 window.addEventListener('beforeunload', setLocalStorage)
 window.addEventListener('load', getLocalStorage)
@@ -485,15 +531,21 @@ timeline.addEventListener('click', updateTimeline);
 volumeBtn.addEventListener('click', toggleVolume);
 volumeSlider.addEventListener('click', changeVolume);
 
+coinInput.addEventListener('change', addNewCoin);
+
+
+// Settings listeners
 settingsButton.addEventListener('click', toggleSettingsWindow);
+
+appTogglers.forEach(app => app.addEventListener('click', toggleApp));
 
 langList.forEach(lang => {
   lang.addEventListener('click', (e) => setLanguage(e.target.textContent.toLowerCase()));
 }) 
 
+bgList.forEach(bg => {
+  bg.addEventListener('click', (e) => setPhotoSource(e.target.textContent.toLowerCase(), state.bgTag))
+}) 
 
-appTogglers.forEach(app => app.addEventListener('click', toggleApp));
-
-
-coinInput.addEventListener('change', addNewCoin);
+bgTagInput.addEventListener('change', () => setBg(state.photoSource, bgTagInput.value));
 
