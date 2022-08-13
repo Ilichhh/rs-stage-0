@@ -40,6 +40,7 @@ const appTogglers = document.querySelectorAll('input[type="checkbox"]');
 
 const coinsList = document.querySelector('.coins-list');
 const coinInput = document.querySelector('.new-coin');
+const coinError = document.querySelector('.coin-error');
 
 const bgList = document.querySelectorAll('.bg-lable');
 const bgTagInput = document.querySelector('.bg-tag');
@@ -223,7 +224,21 @@ function changeWeather(lang) {
 
 
 // Crypto charts
+
+const cryptoData = {
+  en: {
+    placeholder: '[Add coin]',
+    error: 'Oops! Note that only full token names are supported.'
+  },
+  ru: {
+    placeholder: '[Добавь монетку]',
+    error: 'Упс! Учти, что поддерживаются только полные названия токенов.'
+  }
+}
+
+
 function createCoinBlock(coin) {
+  coinError.textContent = '';
   const coinBlock = document.createElement('div');
   const coinSymbol = document.createElement('span');
   const coinPrice = document.createElement('span');
@@ -262,7 +277,7 @@ async function getCryptoPrice(coinIDs) {
     const data = await res.json();
     data.length > 0 ?
       data.forEach(createCoinBlock) :
-      console.log('oops');
+      coinError.textContent = cryptoData[state.lang].error;
 }
 
 function addNewCoin() {
