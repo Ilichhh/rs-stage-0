@@ -12,20 +12,18 @@
   transition: .3s;
 }
 
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
   height: 30vh;
-  min-height: 220px;  
+  min-height: 220px;
   padding: 20px;
 }
 
 
 /* Buttons-------------------------------------- */
-.player-icon,
 .slider-icon,
 .change-quote,
 .settings-button,
@@ -41,17 +39,29 @@
   outline: 0;
   opacity: .8;
   cursor: pointer;
-  transition: .3s;  
+  transition: .3s;
 }
 
-.volume-btn {
+.volume-btn,
+.play,
+.player-icon,
+.play-next,
+.play-prev {
   background-position: center center;
   background-repeat: no-repeat;
   background-color: transparent;
   outline: 0;
   opacity: .8;
   cursor: pointer;
-  transition: .3s;  
+  transition: .3s;
+}
+
+.play,
+.play-prev,
+.play-next {
+  color:rgb(255, 255, 255);
+  border: none;
+  font-size: 24px;
 }
 
 .player-icon:hover,
@@ -61,6 +71,7 @@
 .settings-button:hover,
 .social:hover {
   opacity: 1;
+  transform: scale(1.1);
 }
 
 .player-icon:active,
@@ -68,12 +79,23 @@
 .change-quote:active,
 .settings-button:active {
   border: 0;
-  outline: 0;  
-  transform: scale(1.2);
+  outline: 0;
+  transform: scale(0.8);
 }
 
 
 /* Player------------------------------------------- */
+.player {
+  width: 280px;
+  margin-top: 4px;
+}
+
+.player-interface {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .track-name {
   text-align: left;
   padding: 5px 0 6px;
@@ -81,11 +103,21 @@
 }
 
 .timeline {
+  position: absolute;
   background: white;
-  width: 140px;
-  height: 5px;
+  width: 280px;
+  height: 1px;
   cursor: pointer;
-  margin-bottom: 2px;
+  transition: 0.3s;
+}
+
+.name-time-wrapper {
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.name-time-wrapper:hover .timeline {
+  height: 5px;
 }
 
 .progress {
@@ -112,8 +144,8 @@
 .player-controls {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 120px;
+  justify-content: space-around;
+  width: 100px;
   margin-bottom: 10px;
 }
 
@@ -134,21 +166,13 @@
   opacity: 1;
 }
 
-.play {
-  width: 40px;
-  height: 40px;
-  background-size: 40px 40px;
-  background-image: url("../assets/svg/play.svg");
-}
-
 .play-current {
   position: absolute;
-  left: -5px;
-  top: 3px;
-  width: 20px;
-  height: 20px;
-  background-size: 20px 30px;
-  background-image: url("../assets/svg/play.svg");
+  left: -1px;
+  top: 6px;
+  border: none;
+  font-size: 14px;
+  color: #fff;
 }
 
 .volume {
@@ -163,7 +187,7 @@
 
 .volume-slider {
   position: absolute;
-  left: -3px; 
+  left: -3px;
   top: 9px;
   width: 0;
   height: 15px;
@@ -181,19 +205,6 @@
   height: 100%;
   width: 100%;
 }
-
-.pause {
-  background-image: url("../assets/svg/pause.svg");
-}
-
-.play-prev {
-  background-image: url("../assets/svg/play-prev.svg");
-}
-
-.play-next {
-  background-image: url("../assets/svg/play-next.svg");
-}
-
 
 /* Coins------------------------------------------- */
 .coins-list {
@@ -231,7 +242,7 @@
   width: 160px;
   font-size: 16px;
   border-radius: 13px;
-  color: #fff;  
+  color: #fff;
   border: 0;
   outline: 0;
   background-color: transparent;
@@ -258,7 +269,7 @@
   align-items: flex-start;
   row-gap: 5px;
   width: 180px;
-  min-height: 160px;  
+  min-height: 160px;
   text-align: left;
 }
 
@@ -294,14 +305,14 @@
   padding: 5px;
   font-size: 20px;
   line-height: 24px;
-  color: #fff;  
+  color: #fff;
   border: 0;
   outline: 0;
   border-bottom: 1px solid #fff;
   background-color: transparent;
 }
 
-.city::placeholder {  
+.city::placeholder {
   font-size: 20px;
   color: #fff;
   opacity: .6;
@@ -316,7 +327,7 @@
   align-items: center;
   width: 100%;
   height: 40vh;
-  min-height: 260px;  
+  min-height: 260px;
   padding: 20px;
 }
 
@@ -346,7 +357,7 @@
   margin-bottom: 10px;
   font-family: 'Arial-MT';
   font-size: 100px;
-  letter-spacing: -4px;  
+  letter-spacing: -4px;
 }
 
 .date {
@@ -366,7 +377,7 @@
 }
 
 .greeting {
-  flex: 1;  
+  flex: 1;
   padding: 10px;
   text-align: right;
 }
@@ -395,7 +406,7 @@
   align-items: flex-end;
   width: 100%;
   height: 30vh;
-  min-height: 160px;  
+  min-height: 160px;
   padding: 20px;
 }
 
@@ -403,7 +414,7 @@
 /* Quotes------------------------------------------- */
 .change-quote {
   margin-bottom: 30px;
-  background-image: url("../assets/svg/reload.svg");  
+  background-image: url("../assets/svg/reload.svg");
   animation: spin 3s;
 }
 

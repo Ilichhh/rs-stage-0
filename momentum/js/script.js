@@ -58,9 +58,6 @@ const state = {
   coinIDs: ['bitcoin', 'ethereum', 'everscale', 'moonbeam']
 }
 
-
-
-
 const greetingTranslation = {
   en: {
     night: 'Good night',
@@ -301,25 +298,25 @@ function playAudio() {
   audio.src = playListData[playNum].src;
   audio.currentTime = 0;
   audio.play();
-  playBtn.classList.add('pause');
+  playBtn.classList.add('fa-pause');
 
   playList.childNodes.forEach(e => {
     e.className = 'play-item';
-    e.firstChild.className = 'player-icon play-current';
+    e.firstChild.className = 'player-icon play-current fa fa-play';
   });
   playList.childNodes[playNum].classList.add('item-active');
   trackName.textContent = playListData[playNum].title;
 
   let playCurrentBtn = document.querySelectorAll('.play-current')[playNum];
-  playCurrentBtn.classList.add('pause');
+  playCurrentBtn.classList.add('fa-pause');
   isPlay = true;
 }
 
 function pauseAudio() {
   audio.pause();
-  playBtn.classList.remove('pause');
+  playBtn.classList.remove('fa-pause');
   let playCurrentBtn = document.querySelectorAll('.play-current')[playNum];
-  playCurrentBtn.classList.remove('pause');
+  playCurrentBtn.classList.remove('fa-pause');
   isPlay = false;
 }
 
@@ -328,6 +325,7 @@ function toggleAudio() {
 }
 
 function playNext() {
+  console.log(playNum);
   playNum++;
   if (playNum >= playListData.length) playNum = 0;
   playAudio();
@@ -386,7 +384,7 @@ playListData.forEach((e, index) => {
   playList.append(li);
 
   const playCurrentBtn = document.createElement('button');
-  playCurrentBtn.classList.add('player-icon', 'play-current');
+  playCurrentBtn.classList.add('play-current', 'player-icon', 'fa', 'fa-play');
   li.prepend(playCurrentBtn);
   playCurrentBtn.addEventListener('click', () => playChosenTrack(index));
 })
@@ -443,7 +441,6 @@ function showApp (app) {
   app.classList.remove('hidden-block');
   state.apps.push(app.classList[0])
 }
-
 
 function toggleApp (toggler) {
   const app = document.querySelector(`.${toggler.target.id}`);
