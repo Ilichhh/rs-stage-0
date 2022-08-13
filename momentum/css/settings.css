@@ -8,7 +8,6 @@
 .settings {
   position: absolute;
   width: 350px;
-  height: 500px;
   border-radius: 5px;
   bottom: 70px;
   padding: 15px;
@@ -101,9 +100,23 @@ input:checked + .slider:before {
   padding: 5px;
 }
 
+.app-toggle {
+  align-items: center;
+}
+
+.bg-sources {
+  width: 180px;
+}
+
+.bg-list {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
 
 .bg-tag {
   height: 30px;
+  width: 180px;
   font-size: 16px;
   line-height: 20px;
   color: #fff;  
@@ -111,10 +124,22 @@ input:checked + .slider:before {
   outline: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
   background-color: transparent;
+  transition: 0.3s;
+}
+
+.bg-tag:hover {
+  background-color: rgba(255, 255, 255, 0.1); 
+}
+
+.bg-gh-description {
+  margin-top: 5px;
+  text-align: left;
+  font-size: 12px;
+  opacity: 0.5;
 }
 
 .lang-toggle {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .lang-lable,
@@ -126,4 +151,8 @@ input:checked + .slider:before {
 .lang-on,
 .bg-on {
   opacity: 1;
+}
+
+.hidden-bg-option {
+  display: none;
 }

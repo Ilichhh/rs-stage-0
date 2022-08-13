@@ -44,6 +44,7 @@ const coinError = document.querySelector('.coin-error');
 
 const bgList = document.querySelectorAll('.bg-lable');
 const bgTagInput = document.querySelector('.bg-tag');
+const bgGhDescr = document.querySelector('.bg-gh-description');
 
 let galleryLength;
 let randomNum;
@@ -172,6 +173,13 @@ async function setBg(photoSource, tag) {
 }
 
 function setPhotoSource(photoSource, tag) {
+  if (photoSource === 'github') {
+    bgTagInput.classList.add('hidden-bg-option');
+    bgGhDescr.classList.remove('hidden-bg-option');
+  } else {
+    bgTagInput.classList.remove('hidden-bg-option');
+    bgGhDescr.classList.add('hidden-bg-option');
+  }
   state.photoSource = photoSource;
   bgList.forEach((e) => {
     e.className = ('bg-lable');
@@ -209,7 +217,7 @@ async function getWeather(lang) {
     cityInput.placeholder = weatherData[lang].placeholder;
     weatherError.textContent = ``;
   } catch (err) {
-    weatherError.textContent = `${weatherData[lang].error} '${weatherData.city}'!`;
+    weatherError.textContent = `${weatherData[lang].error} '${weatherData[lang].city}'!`;
     temperature.textContent = ``;
     weatherDescription.textContent = ``;
     windSpeed.textContent = ``;
@@ -218,8 +226,10 @@ async function getWeather(lang) {
 }
 
 function changeWeather(lang) {
-  weatherData[lang].city = cityInput.value;
-  getWeather(lang);
+  if (cityInput.value.length) {
+    weatherData[lang].city = cityInput.value;
+    getWeather(lang);
+  }
 }
 
 
@@ -411,12 +421,16 @@ const settingsData = {
     header: 'Settings',
     apps: ['Time', 'Data', 'Greeting', 'Player', 'Crypto', 'Weather', 'ToDo', 'Quotes'], 
     bg: 'Background',
+    bgGhDescr: 'Source: https://github.com/Ilichhh/stage1-tasks/tree/assets/images',
+    bgTagPlaceholder: '[Enter tag]',
     lang: 'Language'
   },
   ru: {
     header: 'Настройки',
     apps: ['Время', 'Дата', 'Приветствие', 'Плеер', 'Курс валют', 'Погода', 'ToDo', 'Цитаты'], 
     bg: 'Фон',
+    bgGhDescr: 'Источник: https://github.com/Ilichhh/stage1-tasks/tree/assets/images',
+    bgTagPlaceholder: '[Введи тэг]',
     lang: 'Язык'
   }
 }
@@ -445,6 +459,9 @@ function setLanguage(lang) {
   generateContent();
   getWeather(lang);
   getQuotes(lang);
+
+  bgGhDescr.textContent = settingsData[lang].bgGhDescr;
+  bgTagInput.placeholder = settingsData[state.lang].bgTagPlaceholder;
 }
 
 function hideApp (app) {
@@ -490,6 +507,8 @@ function getLocalStorage() {
   }
   if(localStorage.getItem('city')) {
     cityInput.value = localStorage.getItem('city');
+  } else{
+    cityInput.value = weatherData[state.lang].city;
   }
   if(localStorage.getItem('coinIDs')) {
     state.coinIDs = localStorage.getItem('coinIDs').split(',');
@@ -499,6 +518,7 @@ function getLocalStorage() {
   };
   if(localStorage.getItem('bgTag')) {
     state.bgTag = localStorage.getItem('bgTag');
+    bgTagInput.value = state.bgTag;
   };
   if(localStorage.getItem('photoSource')) {
     state.photoSource = localStorage.getItem('photoSource');
@@ -516,6 +536,7 @@ function getLocalStorage() {
       toggler.checked = false;
     }
   })
+
 }
 
 
@@ -560,4 +581,3 @@ bgList.forEach(bg => {
 }) 
 
 bgTagInput.addEventListener('change', () => setBg(state.photoSource, bgTagInput.value));
-
