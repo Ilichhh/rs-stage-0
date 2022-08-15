@@ -61,16 +61,16 @@ const state = {
   photoSource: 'github',
   bgTag: '',
   apps: ['time', 'date','greeting-container', 'player', 'coins-list', 'weather', 'todo', 'quotes-container'],
-  coinIDs: ['bitcoin', 'ethereum', 'everscale', 'moonbeam'],
+  coinIDs: ['bitcoin', 'ethereum'],
   tasks: []
 }
 
 const greetingTranslation = {
-  en: {
+  en: { 
     night: 'Good night',
     morning: 'Good morning',
     afternoon: 'Good afternoon',
-    evening: 'Good evenong',
+    evening: 'Good evening',
     placeholder: '[Enter name]'
   },
   ru: {
@@ -96,7 +96,8 @@ const weatherData = {
     ms: 'm/s',
     humidity: 'Humidity',
     placeholder: '[Enter city]',
-    error: 'Error! city not found for'
+    error: 'Error! city not found for',
+    errorEmptyString: 'Please, enter city'
   },
   ru: {
     city: 'Минск',
@@ -104,7 +105,8 @@ const weatherData = {
     ms: 'м/с',
     humidity: 'Влажность',
     placeholder: '[Введи город]',
-    error: 'Упс! Кажется, не существует города'
+    error: 'Упс! Кажется, не существует города',
+    errorEmptyString: 'Пожалуйста, введите город'
   },
   key: '8596f448275a490d36b3d737978cf2df',
 }
@@ -222,7 +224,9 @@ async function getWeather(lang) {
     cityInput.placeholder = weatherData[lang].placeholder;
     weatherError.textContent = ``;
   } catch (err) {
-    weatherError.textContent = `${weatherData[lang].error} '${weatherData[lang].city}'!`;
+    cityInput.value.length ?
+      weatherError.textContent = `${weatherData[lang].error} '${weatherData[lang].city}'!` :
+      weatherError.textContent = weatherData[lang].errorEmptyString;
     temperature.textContent = ``;
     weatherDescription.textContent = ``;
     windSpeed.textContent = ``;
@@ -231,10 +235,8 @@ async function getWeather(lang) {
 }
 
 function changeWeather(lang) {
-  if (cityInput.value.length) {
-    weatherData[lang].city = cityInput.value;
-    getWeather(lang);
-  }
+  weatherData[lang].city = cityInput.value;
+  getWeather(lang);
 }
 
 
@@ -284,6 +286,7 @@ function createCoinBlock(coin) {
 }
 
 async function getCryptoPrice(coinIDs) {
+  console.log(coinIDs);
   if (Array.isArray(coinIDs)) {
     coinIDs = coinIDs.join('%2C%20');
   }
@@ -291,13 +294,13 @@ async function getCryptoPrice(coinIDs) {
     const res = await fetch(url);
     const data = await res.json();
     data.length > 0 ?
-      data.forEach(createCoinBlock) :
+      addNewCoin(data) :
       coinError.textContent = cryptoData[state.lang].error;
 }
 
-function addNewCoin() {
+function addNewCoin(data) {
+  data.forEach(createCoinBlock);
   state.coinIDs.push(coinInput.value);
-  getCryptoPrice(coinInput.value);
   coinInput.value = '';
 }
 
@@ -316,20 +319,20 @@ async function getQuotes(lang) {
   quote.textContent = data[randomQuoteNum].text;
   data[randomQuoteNum].author !== 'Unknown' ?
     author.textContent = data[randomQuoteNum].author :
-    author.textContent = '';
+    author.textContent = 'unknown author';
   changeQuote.classList.toggle('spin-logo');
 }
 
 
 // Audio player
+
 const audio = new Audio();
 
 function playAudio() {
-  audio.src = playListData[playNum].src;
-  audio.currentTime = 0;
+  if (!audio.src) audio.src = playListData[playNum].src;
   audio.play();
-  playBtn.classList.add('fa-pause');
 
+  playBtn.classList.add('fa-pause');
   playList.childNodes.forEach(e => {
     e.className = 'play-item';
     e.firstChild.className = 'player-icon play-current fa fa-play';
@@ -355,15 +358,16 @@ function toggleAudio() {
 }
 
 function playNext() {
-  console.log(playNum);
   playNum++;
   if (playNum >= playListData.length) playNum = 0;
+  audio.src = playListData[playNum].src
   playAudio();
 }
 
 function playPrev() {
   playNum--;
   if (playNum < 0) playNum = playListData.length - 1;
+  audio.src = playListData[playNum].src
   playAudio();
 }
 
@@ -462,7 +466,7 @@ function setLanguage(lang) {
   })
 
   generateContent();
-  getWeather(lang);
+  changeWeather(lang);
   getQuotes(lang);
 
   bgGhDescr.textContent = settingsData[lang].bgGhDescr;
@@ -574,7 +578,7 @@ timeline.addEventListener('click', updateTimeline);
 volumeBtn.addEventListener('click', toggleVolume);
 volumeSlider.addEventListener('click', changeVolume);
 
-coinInput.addEventListener('change', addNewCoin);
+coinInput.addEventListener('change', () => getCryptoPrice(coinInput.value));
 
 
 // Settings listeners
