@@ -46,7 +46,6 @@ const coinError = document.querySelector('.coin-error');
 
 const bgList = document.querySelectorAll('.bg-lable');
 const bgTagInput = document.querySelector('.bg-tag');
-const bgGhDescr = document.querySelector('.bg-gh-description');
 
 const taskList = document.querySelector('.task-list');
 const taskInput = document.querySelector('.new-task');
@@ -185,10 +184,8 @@ async function setBg(photoSource, tag) {
 function setPhotoSource(photoSource, tag) {
   if (photoSource === 'github') {
     bgTagInput.classList.add('hidden-bg-option');
-    bgGhDescr.classList.remove('hidden-bg-option');
   } else {
     bgTagInput.classList.remove('hidden-bg-option');
-    bgGhDescr.classList.add('hidden-bg-option');
   }
   state.photoSource = photoSource;
   bgList.forEach((e) => {
@@ -507,7 +504,6 @@ const settingsData = {
     header: 'Settings',
     apps: ['Time', 'Data', 'Greeting', 'Player', 'Cryptocurrency prices', 'Weather', 'ToDo', 'Quotes'], 
     bg: 'Background',
-    bgGhDescr: 'Source: https://github.com/Ilichhh/stage1-tasks/tree/assets/images',
     bgTagPlaceholder: '[Enter tag]',
     lang: 'Language'
   },
@@ -515,7 +511,6 @@ const settingsData = {
     header: 'Настройки',
     apps: ['Время', 'Дата', 'Приветствие', 'Плеер', 'Курс криптовалют', 'Погода', 'ToDo', 'Цитаты'], 
     bg: 'Фон',
-    bgGhDescr: 'Источник: https://github.com/Ilichhh/stage1-tasks/tree/assets/images',
     bgTagPlaceholder: '[Введи тэг]',
     lang: 'Язык'
   }
@@ -550,7 +545,6 @@ function setLanguage(lang) {
   getQuotes(lang);
   displayTasks(lang);
 
-  bgGhDescr.textContent = settingsData[lang].bgGhDescr;
   bgTagInput.placeholder = settingsData[state.lang].bgTagPlaceholder;
 }
 

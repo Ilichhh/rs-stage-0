@@ -1,6 +1,15 @@
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
+    height: auto;
+  }
+
+  .main {
+    height: auto;
+  }
+
+  .footer {
+    height: auto;
   }
 
   .time {
