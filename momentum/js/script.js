@@ -48,6 +48,7 @@ const bgGhDescr = document.querySelector('.bg-gh-description');
 
 const taskList = document.querySelector('.task-list');
 const taskInput = document.querySelector('.new-task');
+const taskIntro = document.querySelector('.todo h2');
 
 
 let galleryLength;
@@ -241,15 +242,17 @@ function changeWeather(lang) {
 
 
 // Crypto charts
-
 const cryptoData = {
   en: {
     placeholder: '[Add coin]',
-    error: 'Oops! Note that only full token names are supported.'
+    nameError: 'Please enter full name, e.g. "bitcoin", "dogecoin"...',
+    apiError: 'Oops, something has gone wrong.',
+
   },
   ru: {
     placeholder: '[Добавь монетку]',
-    error: 'Упс! Учти, что поддерживаются только полные названия токенов.'
+    nameError: 'Пожалуйста, введи полное имя, например "bitcoin", "dogecoin"...',
+    apiError: 'Похоже, что-то пошло не так.',
   }
 }
 
@@ -291,16 +294,22 @@ async function getCryptoPrice(coinIDs) {
     coinIDs = coinIDs.join('%2C%20');
   }
   const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinIDs}&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
-    const res = await fetch(url);
-    const data = await res.json();
-    data.length > 0 ?
-      addNewCoin(data) :
-      coinError.textContent = cryptoData[state.lang].error;
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      data.length ?
+        addNewCoin(data) :
+        coinError.textContent = cryptoData[state.lang].nameError;
+        setTimeout(() => coinError.textContent = '', 8000);
+    } catch (err) {
+        coinError.textContent = cryptoData[state.lang].apiError;
+        setTimeout(() => coinError.textContent = '', 8000);
+    }
 }
 
 function addNewCoin(data) {
   data.forEach(createCoinBlock);
-  state.coinIDs.push(coinInput.value);
+  if (coinInput.value.length) state.coinIDs.push(coinInput.value);
   coinInput.value = '';
 }
 
@@ -424,11 +433,76 @@ playListData.forEach((e, index) => {
 })
 
 
+// TD
+const tasksData = {
+  en: { 
+    intro: 'Any plans for today?',
+    placeholder: '[Add task]'
+  },
+  ru: {
+    intro: 'Чем займемся сегодня?',
+    placeholder: '[Добавь звдачу]'
+  }
+}
+
+function addNewTask() {
+  let value = '';
+  taskInput.value.length > 18 ? value = taskInput.value.slice(0, 18) + '...' : value = taskInput.value;
+  let newTask = {
+    name: value,
+    checked: false
+  }
+  state.tasks.push(newTask);
+  displayTasks(state.lang);
+  localStorage.setItem('tasks', JSON.stringify(state.tasks));
+  taskInput.value = '';
+}
+
+function displayTasks(lang) {
+  if (!state.tasks.length) {
+    taskIntro.textContent = tasksData[lang].intro;
+    taskInput.style.borderBottom = '1px solid rgba(255, 255, 255, 0.2)';
+  } else {
+    taskIntro.textContent = '';
+    taskInput.style.borderBottom = 'none';
+  }
+
+  let displayTask = '';
+  state.tasks.forEach((task, id) => {
+    displayTask += `
+    <li class="task">
+      <input type="checkbox" id="task-${id}" ${task.checked ? 'checked' : ''}>
+      <span class="task-ckeckbox"></span>
+      <label class="task-name" for="item-${id}">${task.name}</label>
+      <button class="delete-task-btn icono-crossCircle"></button>
+    </li>
+    `;
+  taskList.innerHTML = displayTask;
+  });
+
+  taskInput.placeholder = tasksData[lang].placeholder;
+}
+
+function toggleTaskCheckbox(e) {
+  const taskId = +e.target.id.split('-')[1];
+  state.tasks[taskId].checked = !state.tasks[taskId].checked;
+  localStorage.setItem('tasks', JSON.stringify(state.tasks));
+}
+
+function deleteTask(e) {
+  if (e.target.classList.contains('delete-task-btn')) {
+    state.tasks = state.tasks.filter(task => task.name !== e.target.parentElement.querySelector('.task-name').textContent);
+    e.target.parentElement.remove();
+    localStorage.setItem('tasks', JSON.stringify(state.tasks));
+  }
+}
+
+
 // Settings
 const settingsData = {
   en: {
     header: 'Settings',
-    apps: ['Time', 'Data', 'Greeting', 'Player', 'Crypto', 'Weather', 'ToDo', 'Quotes'], 
+    apps: ['Time', 'Data', 'Greeting', 'Player', 'Cryptocurrency prices', 'Weather', 'ToDo', 'Quotes'], 
     bg: 'Background',
     bgGhDescr: 'Source: https://github.com/Ilichhh/stage1-tasks/tree/assets/images',
     bgTagPlaceholder: '[Enter tag]',
@@ -436,7 +510,7 @@ const settingsData = {
   },
   ru: {
     header: 'Настройки',
-    apps: ['Время', 'Дата', 'Приветствие', 'Плеер', 'Курс валют', 'Погода', 'ToDo', 'Цитаты'], 
+    apps: ['Время', 'Дата', 'Приветствие', 'Плеер', 'Курс криптовалют', 'Погода', 'ToDo', 'Цитаты'], 
     bg: 'Фон',
     bgGhDescr: 'Источник: https://github.com/Ilichhh/stage1-tasks/tree/assets/images',
     bgTagPlaceholder: '[Введи тэг]',
@@ -465,9 +539,12 @@ function setLanguage(lang) {
     if (e.textContent.toLowerCase() === lang) e.classList.add('lang-on');
   })
 
+  if (cityInput.value === 'Minsk' || cityInput.value === 'Минск') cityInput.value = weatherData[lang].city;
+
   generateContent();
   changeWeather(lang);
   getQuotes(lang);
+  displayTasks(lang);
 
   bgGhDescr.textContent = settingsData[lang].bgGhDescr;
   bgTagInput.placeholder = settingsData[state.lang].bgTagPlaceholder;
@@ -504,7 +581,6 @@ function setLocalStorage() {
   localStorage.setItem('name', name.value);
   localStorage.setItem('city', cityInput.value);
   localStorage.setItem('coinIDs', state.coinIDs);
-  localStorage.setItem('tasks', state.tasks);
   localStorage.setItem('language', state.lang);
   localStorage.setItem('bgTag', bgTagInput.value);
   localStorage.setItem('photoSource', state.photoSource);
@@ -524,8 +600,7 @@ function getLocalStorage() {
     state.coinIDs = localStorage.getItem('coinIDs').split(',');
   }
   if(localStorage.getItem('tasks')) {
-    state.tasks = localStorage.getItem('tasks').split(',');
-    state.tasks.forEach(task => createTask(task));
+    state.tasks = JSON.parse(localStorage.getItem('tasks'));
   }
   if(localStorage.getItem('language')) {
     state.lang = localStorage.getItem('language');
@@ -554,8 +629,6 @@ function getLocalStorage() {
 }
 
 
-
-
 window.addEventListener('beforeunload', setLocalStorage)
 window.addEventListener('load', getLocalStorage)
 
@@ -580,51 +653,19 @@ volumeSlider.addEventListener('click', changeVolume);
 
 coinInput.addEventListener('change', () => getCryptoPrice(coinInput.value));
 
+taskInput.addEventListener('change', addNewTask);
+taskList.addEventListener('change', toggleTaskCheckbox);
+taskList.addEventListener('click', deleteTask);
 
 // Settings listeners
 settingsButton.addEventListener('click', toggleSettingsWindow);
-
 appTogglers.forEach(app => app.addEventListener('click', toggleApp));
 
 langList.forEach(lang => {
   lang.addEventListener('click', (e) => setLanguage(e.target.textContent.toLowerCase()));
 }) 
-
 bgList.forEach(bg => {
   bg.addEventListener('click', (e) => setPhotoSource(e.target.textContent.toLowerCase(), state.bgTag))
 }) 
 
 bgTagInput.addEventListener('change', () => setBg(state.photoSource, bgTagInput.value));
-
-
-// TD
-function createTask(name) {
-  const taskBlock = document.createElement('div');
-  const taskName = document.createElement('span');
-  taskList.append(taskBlock);
-  taskBlock.append(taskName);
-  taskBlock.classList.add('task');
-  taskName.classList.add('task-name');
-
-  taskName.textContent = name;
-  taskInput.value = '';
-
-  const deleteTaskBtn = document.createElement('button');
-  deleteTaskBtn.classList.add('delete-task-btn', 'icono-crossCircle');
-  taskBlock.append(deleteTaskBtn);
-  deleteTaskBtn.addEventListener('click', deleteTask);
-}
-
-function addNewTask() {
-  state.tasks.push(taskInput.value);
-  createTask(taskInput.value);
-  taskInput.value = '';
-}
-
-function deleteTask(e) {
-  state.tasks = state.tasks.filter(task => task !== e.target.parentElement.textContent);
-  e.target.parentElement.remove();
-}
-
-
-taskInput.addEventListener('change', addNewTask);
