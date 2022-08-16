@@ -2,11 +2,10 @@
   width: 32px;
   height: 32px;
   background-image: url('../assets/icons/settings.png');
-  animation: spin 3s;
 }
 
 .settings {
-  position: absolute;
+  position: fixed;
   width: 350px;
   border-radius: 5px;
   bottom: 70px;
@@ -17,8 +16,23 @@
   z-index: -1;
 }
 
+.blocker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: ' ';
+  background: rgba(0,0,0,.2);
+  z-index: -1;
+}
+
 .show-settings {
   opacity: 1;
+  z-index: 10;
+}
+
+.show-blocker {
   z-index: 1;
 }
 
@@ -78,18 +92,12 @@ input:checked + .slider:before {
 .settings > h2 {
   text-align: left;
   padding-bottom: 10px;
-  margin-bottom: 15px;
   opacity: .8;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.499);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .setting-name {
   opacity: .8;
-}
-
-.apps-list,
-.bg-settings {
-  margin-bottom: 15px;
 }
 
 .app-toggle,
@@ -98,6 +106,12 @@ input:checked + .slider:before {
   display: flex;
   justify-content: space-between;
   padding: 5px;
+}
+
+.bg-settings,
+.apps-list {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .app-toggle {
@@ -122,7 +136,7 @@ input:checked + .slider:before {
   color: #fff;  
   border: 0;
   outline: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   background-color: transparent;
   transition: 0.3s;
 }
@@ -139,7 +153,8 @@ input:checked + .slider:before {
 }
 
 .lang-toggle {
-  margin-bottom: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .lang-lable,

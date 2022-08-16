@@ -34,6 +34,8 @@ const volumeSlider = document.querySelector('.volume-slider');
 
 const settingsButton = document.querySelector('.settings-button');
 const settingsWindow = document.querySelector('.settings');
+const settingsBlocker = document.querySelector('.blocker');
+
 
 const langList = document.querySelectorAll('.lang-lable');
 const appTogglers = document.querySelectorAll('input[type="checkbox"]');
@@ -289,7 +291,6 @@ function createCoinBlock(coin) {
 }
 
 async function getCryptoPrice(coinIDs) {
-  console.log(coinIDs);
   if (Array.isArray(coinIDs)) {
     coinIDs = coinIDs.join('%2C%20');
   }
@@ -311,6 +312,7 @@ function addNewCoin(data) {
   data.forEach(createCoinBlock);
   if (coinInput.value.length) state.coinIDs.push(coinInput.value);
   coinInput.value = '';
+  coinInput.placeholder = cryptoData[state.lang].placeholder;
 }
 
 function deleteCoin(e) {
@@ -329,7 +331,8 @@ async function getQuotes(lang) {
   data[randomQuoteNum].author !== 'Unknown' ?
     author.textContent = data[randomQuoteNum].author :
     author.textContent = 'unknown author';
-  changeQuote.classList.toggle('spin-logo');
+    
+  changeQuote.classList.add('change-quote-aminated');
 }
 
 
@@ -520,7 +523,8 @@ const settingsData = {
 
 function toggleSettingsWindow() {
   settingsWindow.classList.toggle('show-settings');
-  settingsButton.classList.toggle('spin-logo');
+  settingsButton.classList.toggle('spin-settings-logo');
+  settingsBlocker.classList.toggle('show-blocker');
 }
 
 function setLanguage(lang) {
@@ -637,6 +641,9 @@ slidePrev.addEventListener('click', getSlidePrev);
 
 cityInput.addEventListener('change', () => changeWeather(state.lang));
 changeQuote.addEventListener('click', () => getQuotes(state.lang));
+changeQuote.addEventListener('animationend', () => changeQuote.classList.remove("change-quote-aminated"));
+
+
 
 playBtn.addEventListener('click', toggleAudio);
 playPrevBtn.addEventListener('click', playPrev);
@@ -667,5 +674,7 @@ langList.forEach(lang => {
 bgList.forEach(bg => {
   bg.addEventListener('click', (e) => setPhotoSource(e.target.textContent.toLowerCase(), state.bgTag))
 }) 
+
+settingsBlocker.addEventListener('click', () => toggleSettingsWindow());
 
 bgTagInput.addEventListener('change', () => setBg(state.photoSource, bgTagInput.value));

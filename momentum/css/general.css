@@ -466,11 +466,19 @@
 .change-quote {
   margin-bottom: 30px;
   background-image: url("../assets/svg/reload.svg");
-  animation: spin 3s;
 }
 
-.spin-logo {
-  /* transform: rotate(-180deg); */
+.change-quote-aminated {
+  animation: spin 0.5s;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spin-settings-logo {
+  transform: rotate(90deg);
 }
 
 .quote {
@@ -487,6 +495,8 @@
 }
 
 .social {
+  opacity: .5;
+  transition: .3s;
   margin-left: 20px;
 }
 
@@ -501,7 +511,7 @@
 }
 
 .task-list {
-  max-height: 250px;
+  max-height: 185px;
   overflow: hidden;
   transition: .3s;
   padding-left: 40px;
@@ -514,7 +524,7 @@
 .task {
   font-size: 24px;
   height: 30px;
-  width: 250px;
+  width: 300px;
   position: relative;
   border-radius: 15px;
   opacity: 0.8;
@@ -562,19 +572,16 @@
   background-color: coral;
 }
 
-/* Create the checkmark/indicator (hidden when not checked) */
 .task-ckeckbox:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* Show the checkmark when checked */
 .task input:checked ~ .task-ckeckbox:after {
   display: block;
 }
 
-/* Style the checkmark/indicator */
 .task .task-ckeckbox:after {
   left: 7px;
   top: 2px;
@@ -587,8 +594,6 @@
   transform: rotate(45deg);
 }
 
-
-/* Create the checkmark/indicator (hidden when not checked) */
 .task-name:after {
   content: "";
   position: absolute;
@@ -596,12 +601,10 @@
   transition: .3s;
 }
 
-/* Show the checkmark when checked */
 .task input:checked ~ .task-name:after {
   width: 200px;
 }
 
-/* Style the checkmark/indicator */
 .task .task-name:after {
   left: 7px;
   top: 15px;
