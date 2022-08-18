@@ -334,7 +334,6 @@ async function getQuotes(lang) {
 
 
 // Audio player
-
 const audio = new Audio();
 
 function playAudio() {
@@ -369,14 +368,14 @@ function toggleAudio() {
 function playNext() {
   playNum++;
   if (playNum >= playListData.length) playNum = 0;
-  audio.src = playListData[playNum].src
+  audio.src = playListData[playNum].src;
   playAudio();
 }
 
 function playPrev() {
   playNum--;
   if (playNum < 0) playNum = playListData.length - 1;
-  audio.src = playListData[playNum].src
+  audio.src = playListData[playNum].src;
   playAudio();
 }
 
@@ -403,6 +402,7 @@ function playChosenTrack(index) {
     toggleAudio();
   } else {
     playNum = index;
+    audio.src = playListData[playNum].src;
     playAudio();
   }
 }

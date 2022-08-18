@@ -111,6 +111,7 @@
 }
 
 .timeline {
+  opacity: .8;
   position: absolute;
   background: white;
   width: 280px;
@@ -124,8 +125,9 @@
   margin-bottom: 5px;
 }
 
-.name-time-wrapper:hover .timeline {
-  height: 5px;
+.player:hover .timeline {
+  transform: translateY(-2px);
+  height: 4px;
 }
 
 .progress {
@@ -357,7 +359,7 @@
   color: #fff;
   border: 0;
   outline: 0;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
   background-color: transparent;
 }
 
